@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Grid } from "@mui/material";
-import OrderCheckout from "../cart/OrderCheckout";
+import CartCheck from "../cart/CartCheck";
 import CartOne from "../cart/CartOne";
 
 const Cart = () => {
@@ -28,7 +28,7 @@ const Cart = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <OrderCheckout cart={cart} />
+          <CartCheck cart={cart} />
         </Grid>
       </Grid>
     </div>
