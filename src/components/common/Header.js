@@ -51,7 +51,11 @@ const Header = () => {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
-              sx={{ color: "black", padding: "10px 20px", fontSize: "17px" }}
+              sx={{
+                color: "black",
+                padding: "10px 20px",
+                fontSize: "17px",
+              }}
             >
               {open ? `제품🔼` : `제품🔽`}
             </Button>
@@ -77,7 +81,7 @@ const Header = () => {
           <Link to="/login">
             <Button
               variants="subtitle1"
-              sx={{ bgcolor: "#035afc", color: "white" }}
+              sx={{ bgcolor: "primary.main", color: "white" }}
             >
               로그인
             </Button>
