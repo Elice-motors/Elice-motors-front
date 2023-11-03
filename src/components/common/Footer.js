@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography } from "@mui/material";
 const Footer = () => {
   return (
     <div
-      style={{ position: "relative", height: "100vh", paddingBottom: "40px" }}
+      style={{ position: "relative", height: "100%", paddingBottom: "40px" }}
     >
       <AppBar
         position="absolute"
