@@ -10,7 +10,7 @@ const MainPage = () => {
       <MainProductBanner />
       <div
         style={{
-          marginTop: "120px",
+          marginTop: "50px",
           padding: "20px",
         }}
       >
