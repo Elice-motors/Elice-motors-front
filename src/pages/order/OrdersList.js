@@ -50,13 +50,21 @@ const OrdersList = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <OrderHistory
-        orders={orders}
-        totalAmount={totalAmount}
-        cancelOrder={cancelOrder}
-      />
-    </Container>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Container maxWidth="sm" sx={{ marginTop: "100px" }}>
+        <OrderHistory
+          orders={orders}
+          totalAmount={totalAmount}
+          cancelOrder={cancelOrder}
+        />
+      </Container>
+    </div>
   );
 };
 
