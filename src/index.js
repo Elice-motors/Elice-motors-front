@@ -1,6 +1,5 @@
-// index.js
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider, createTheme } from "@mui/material";
 
@@ -17,11 +16,11 @@ const theme = createTheme({
   // 추가적인 테마 설정...
 });
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </ThemeProvider>,
-  document.getElementById("root")
+  </ThemeProvider>
 );
