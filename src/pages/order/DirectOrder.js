@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import CartCheck from "../../components/cart/CartCheck";
 import CartOne from "../../components/cart/CartOne";
 
@@ -8,12 +8,12 @@ const Cart = () => {
     {
       id: 1,
       name: "차량 1",
-      maxSpeed: "225km/h",
-      mileage: "10km/l",
+      maxSpeed: 225,
+      mileage: 10,
       fuel: "5.7",
       color: "Black",
       image: "/car1.jpg",
-      price: "50,000,000",
+      price: 50000000,
       option: "라이트",
     },
   ];
@@ -21,16 +21,28 @@ const Cart = () => {
   const [cart, setCart] = useState(carsData);
 
   return (
-    <div style={{ padding: "16px" }}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <CartOne car={cart[0]} setCart={setCart} />
-        </Grid>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        height: "100vh",
+        padding: "20px",
+      }}
+    >
+      <div>
+        <Typography variant="h4" style={{ fontWeight: "bold" }}>
+          즉시 결제
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <CartOne car={cart[0]} setCart={setCart} />
+          </Grid>
 
-        <Grid item xs={6}>
-          <CartCheck cart={cart} />
+          <Grid item xs={6}>
+            <CartCheck cart={cart} />
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
   );
 };
