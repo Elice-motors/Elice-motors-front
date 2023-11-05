@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Grid, Typography, Button, Checkbox } from '@mui/material';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Typography, Button } from "@mui/material";
+import CommonCarCard from "../common/CommonCarCard";
 
-const CarList = ({ cart, setCart }) => {
+const CartList = ({ cart, setCart }) => {
   const addToCart = (car) => {
     setCart([...cart, car]);
   };
@@ -16,52 +16,35 @@ const CarList = ({ cart, setCart }) => {
     // Your order handling logic goes here.
     console.log(`주문 요청: ${car.name}`);
   };
-
   return (
     <>
-      <Typography variant="h6" style={{ fontWeight: 'bold' }}>
+      <Typography
+        variant="h6"
+        style={{ fontWeight: "bold", marginBottom: "50px" }}
+      >
         장바구니({cart.length})
       </Typography>
-      <Grid container spacing={2} style={{ marginTop: '20px' }}>
+      <div style={{ overflowY: "scroll", height: "450px" }}>
         {cart.map((car) => (
-          <Grid container key={car.id} style={{ display: 'flex' }}>
-            {/* 체크박스 */}
-            <Grid item xs={1}>
-              <Checkbox defaultChecked />
-            </Grid>
-
-            {/* 제품 이미지 및 제품명 */}
-            <Grid item xs={5}>
-              <Link to={`/cars/${car.id}`}>
-                <img src={car.image} alt={car.name} style={{ width: '100%' }} />
-              </Link>
-            </Grid>
-
-            {/* 옵션, 색상 및 결제 금액 */}
-            <Grid item xs={3}>
-              <Typography>옵션: {car.option}</Typography>
-              <Typography>색상: {car.color}</Typography>
-              <Typography style={{ fontWeight: 'bold' }}>
-                결제 금액: {car.price} 원
-              </Typography>
-            </Grid>
-
-            {/* 삭제 버튼 */}
-            <Grid item xs={2} style={{ display: 'flex', alignItems: 'center' }}>
+          <CommonCarCard
+            key={car.id}
+            car={car}
+            checkbox={true}
+            actionComponent={
               <Button
                 variant="contained"
                 color="error"
                 onClick={() => removeFromCart(car.id)}
-                style={{ flex: 1 }}
+                style={{ width: "100%" }}
               >
                 삭제
               </Button>
-            </Grid>
-          </Grid>
+            }
+          />
         ))}
-      </Grid>
+      </div>
     </>
   );
 };
 
-export default CarList;
+export default CartList;
