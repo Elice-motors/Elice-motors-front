@@ -59,62 +59,70 @@ const Register = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
-        <CenteredTitle>회원가입</CenteredTitle>
-        <form>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h7" sx={{ fontWeight: "bold" }}>
-                이름
-              </Typography>
-              <TextField
-                fullWidth
-                value={name}
-                onChange={handleNameChange}
-              />
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
+          <CenteredTitle>회원가입</CenteredTitle>
+          <form>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                  이름
+                </Typography>
+                <TextField fullWidth value={name} onChange={handleNameChange} />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                  이메일
+                </Typography>
+                <TextField
+                  fullWidth
+                  onChange={validateEmail}
+                  error={!!emailError}
+                  value={email}
+                  helperText={emailError}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                  비밀번호
+                </Typography>
+                <TextField
+                  fullWidth
+                  type="password"
+                  onChange={validatePassword}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                  비밀번호 확인
+                </Typography>
+                <TextField
+                  fullWidth
+                  type="password"
+                  value={confirmPassword}
+                  onChange={validateConfirmPassword}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button variant="contained" color="primary" fullWidth>
+                  회원가입
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h7" sx={{ fontWeight: "bold" }}>
-                이메일
-              </Typography>
-              <TextField
-                fullWidth
-                onChange={validateEmail}
-                error={!!emailError}
-                value={email}
-                helperText={emailError}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h7" sx={{ fontWeight: "bold" }}>
-                비밀번호
-              </Typography>
-              <TextField fullWidth type="password" onChange={validatePassword} />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h7" sx={{ fontWeight: "bold" }}>
-                비밀번호 확인
-              </Typography>
-              <TextField
-                fullWidth
-                type="password"
-                value={confirmPassword}
-                onChange={validateConfirmPassword}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth>
-                회원가입
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-        <CenteredLink to="/login">
-          이미 가입한 계정이 있다면 로그인해주세요!
-        </CenteredLink>
-      </Paper>
-    </Container>
+          </form>
+          <CenteredLink to="/login">
+            이미 가입한 계정이 있다면 로그인해주세요!
+          </CenteredLink>
+        </Paper>
+      </Container>
+    </div>
   );
 };
 
