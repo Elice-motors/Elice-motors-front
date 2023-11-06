@@ -9,6 +9,8 @@ import {
   Avatar,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { deepOrange } from "@mui/material/colors";
 
 const Header = () => {
   const [productAnchorEl, setProductAnchorEl] = useState(null);
@@ -37,10 +39,29 @@ const Header = () => {
     handleUserClose();
     navigate("/admin-item");
   };
-  const handlelogout = () => {
+  const handlelogout = async () => {
     handleUserClose();
-    localStorage.removeItem("accessToken");
-    navigate("/");
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      await axios
+        .post(
+          "/signout",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status === 204) {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+          }
+        });
+    } catch (e) {
+      throw new Error("실패");
+    }
   };
   return (
     <>
@@ -109,14 +130,15 @@ const Header = () => {
           {localStorage.getItem("accessToken") ? (
             <div>
               <Avatar
-                sx={{ cursor: "pointer" }}
-                src="/broken-image.png"
+                sx={{ bgcolor: deepOrange[500], cursor: "pointer" }}
                 id="user-info"
                 aria-controls={userInfoOpen ? "user-info" : undefined}
                 aria-haspopup="true"
                 aria-expanded={userInfoOpen ? "true" : undefined}
                 onClick={handleUserClick}
-              />
+              >
+                U
+              </Avatar>
               <Menu
                 anchorEl={userInfoAnchorEl}
                 open={userInfoOpen}
