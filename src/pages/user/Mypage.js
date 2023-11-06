@@ -15,18 +15,17 @@ const Mypage = () => {
     address: "",
   });
 
-  const shortId = "zxySLnQ5xdYkAarQ8YIYX";
-  const authToken =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0MzFkYmNlMWU2NjZiYjNhNzUwZmU3Iiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTkzMzk0ODcsImlhdCI6MTY5OTI1MzA4N30.4fq3o_sl3SWFP4GE2C4k51PAh0iyNgITRGdsGfBgLNM";
+  const shortId = localStorage.getItem("shortId");
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    if (authToken) {
+    if (accessToken) {
       // 사용자 정보를 서버에서 가져옵니다.
       axios
         .get(`/users/${shortId}`, {
           // shortId를 URL에 포함
           headers: {
-            Authorization: `${authToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         })
         .then((response) => {
@@ -39,7 +38,7 @@ const Mypage = () => {
           console.error("사용자 정보 가져오기 실패:", error);
         });
     }
-  }, [shortId]);
+  });
 
   const handleAccountUpdate = () => {
     // 변경된 사용자 정보를 수집
@@ -54,10 +53,9 @@ const Mypage = () => {
     const apiUrl = `/users/${shortId}`; // shortId를 어떻게 얻는지에 따라 동적으로 생성
 
     // API 요청 헤더 설정
-    const authToken =
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0MzFkYmNlMWU2NjZiYjNhNzUwZmU3Iiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTkzMzk0ODcsImlhdCI6MTY5OTI1MzA4N30.4fq3o_sl3SWFP4GE2C4k51PAh0iyNgITRGdsGfBgLNM"; // 로컬 스토리지에서 토큰 가져오기
+
     const headers = {
-      Authorization: authToken,
+      Authorization: `Bearer ${accessToken}`,
     };
 
     // API 요청 본문 준비
@@ -83,7 +81,7 @@ const Mypage = () => {
     axios
       .delete(`/users/${shortId}`, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
