@@ -7,7 +7,8 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CenteredLink = (props) => (
   <Link
@@ -30,6 +31,8 @@ const CenteredTitle = (props) => (
 );
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,6 +59,39 @@ const Register = () => {
 
   const handleNameChange = (e) => {
     setName(e.target.value);
+  };
+
+  const handleRegistration = () => {
+    // API 요청 데이터 준비
+    const requestData = {
+      userName: name,
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("/signup", requestData)
+      .then((response) => {
+        if (response.status === 201) {
+          // 회원가입 성공
+          alert("회원가입에 성공했습니다.");
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400) {
+          if (error.response.data.message === "이미 가입한 이메일입니다.") {
+            alert("이미 가입한 이메일입니다.");
+          } else if (
+            error.response.data.message ===
+            "이름, 이메일, 비밀번호는 필수입니다."
+          ) {
+            alert("이름, 이메일, 비밀번호는 필수입니다.");
+          }
+        } else {
+          console.error("API 요청 실패:", error);
+        }
+      });
   };
 
   return (
@@ -111,7 +147,12 @@ const Register = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button variant="contained" color="primary" fullWidth>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handleRegistration}
+                >
                   회원가입
                 </Button>
               </Grid>
