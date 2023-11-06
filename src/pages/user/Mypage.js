@@ -79,6 +79,15 @@ const Mypage = () => {
       });
   };
 
+  const handleLogout = () => {
+    // 로그아웃 로직을 구현합니다.
+    // 이 예제에서는 localStorage에서 토큰을 제거하여 로그아웃하는 것으로 가정합니다.
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("shortId");
+
+    // 다음으로, 사용자를 로그인 페이지 또는 다른 적절한 페이지로 리디렉션할 수 있습니다.
+  };
+
   const handleAccountDelete = () => {
     // 사용자 정보를 서버에서 삭제합니다.
     axios
@@ -91,6 +100,7 @@ const Mypage = () => {
         if (response.status === 204) {
           // 계정 삭제에 성공하면 성공 메시지를 표시하거나 다른 조치를 취할 수 있습니다.
           alert("계정이 성공적으로 삭제되었습니다.");
+          handleLogout();
           navigate("/");
         }
       })
