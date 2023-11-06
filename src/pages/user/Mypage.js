@@ -5,8 +5,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DaumPostcode from "react-daum-postcode";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Mypage = () => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -88,7 +91,7 @@ const Mypage = () => {
         if (response.status === 204) {
           // 계정 삭제에 성공하면 성공 메시지를 표시하거나 다른 조치를 취할 수 있습니다.
           alert("계정이 성공적으로 삭제되었습니다.");
-          // 여기에 필요한 추가 조치를 수행하십시오.
+          navigate("/");
         }
       })
       .catch((error) => {
