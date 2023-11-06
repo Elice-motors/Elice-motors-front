@@ -41,6 +41,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("USER");
   const [emailError, setEmailError] = useState("");
+  const [shortId, setShortId] = useState("");
 
   const validateEmail = (e) => {
     setEmail(e.target.value);
@@ -83,6 +84,11 @@ const Register = () => {
         if (response.status === 201) {
           // 회원가입 성공
           alert("회원가입에 성공했습니다.");
+          // shortId 저장
+          setShortId(response.data.user.shortId); // 예를 들어, API 응답에서 shortId를 어떻게 가져올지 확인하세요.
+
+          // 로컬 스토리지에 shortId 저장
+          localStorage.setItem("shortId", response.data.user.shortId);
           navigate("/login");
         }
       })
