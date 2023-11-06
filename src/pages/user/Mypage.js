@@ -1,24 +1,121 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, TextField, Typography, Grid } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DaumPostcode from "react-daum-postcode";
+import axios from "axios";
 
 const Mypage = () => {
   const [user, setUser] = useState({
-    name: "dodo",
-    email: "hido02@naver.com",
-    age: 30,
-    phoneNumber: "010-XXXX-XXXX",
-    address: "123 Main St, City, Country",
+    userName: "",
+    email: "",
+    age: "",
+    phone: "",
+    address: "",
   });
+
+  const shortId = "zxySLnQ5xdYkAarQ8YIYX";
+  const authToken =
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0MzFkYmNlMWU2NjZiYjNhNzUwZmU3Iiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTkzMzk0ODcsImlhdCI6MTY5OTI1MzA4N30.4fq3o_sl3SWFP4GE2C4k51PAh0iyNgITRGdsGfBgLNM";
+
+  useEffect(() => {
+    if (authToken) {
+      // 사용자 정보를 서버에서 가져옵니다.
+      axios
+        .get(`/users/${shortId}`, {
+          // shortId를 URL에 포함
+          headers: {
+            Authorization: `${authToken}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            setUser(response.data.user);
+            console.log(user);
+          }
+        })
+        .catch((error) => {
+          console.error("사용자 정보 가져오기 실패:", error);
+        });
+    }
+  }, [shortId]);
+
+  const handleAccountUpdate = () => {
+    // 변경된 사용자 정보를 수집
+    const updatedUserInfo = {
+      userName: user.name,
+      email: user.email,
+      age: user.age,
+      phone: user.phoneNumber,
+      address: user.address,
+    };
+
+    const apiUrl = `/users/${shortId}`; // shortId를 어떻게 얻는지에 따라 동적으로 생성
+
+    // API 요청 헤더 설정
+    const authToken =
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0MzFkYmNlMWU2NjZiYjNhNzUwZmU3Iiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTkzMzk0ODcsImlhdCI6MTY5OTI1MzA4N30.4fq3o_sl3SWFP4GE2C4k51PAh0iyNgITRGdsGfBgLNM"; // 로컬 스토리지에서 토큰 가져오기
+    const headers = {
+      Authorization: authToken,
+    };
+
+    // API 요청 본문 준비
+    const requestBody = updatedUserInfo;
+
+    // API 요청 보내기
+    axios
+      .put(apiUrl, requestBody, { headers })
+      .then((response) => {
+        if (response.status === 200) {
+          // 계정 정보 변경에 성공하면 성공 메시지를 표시하거나 다른 조치를 취할 수 있습니다.
+          alert("계정 정보가 성공적으로 변경되었습니다.");
+        }
+      })
+      .catch((error) => {
+        console.error("API 호출 실패:", error);
+        // 에러 처리를 수행하거나 에러 메시지를 표시할 수 있습니다.
+      });
+  };
+
+  const handleAccountDelete = () => {
+    // 사용자 정보를 서버에서 삭제합니다.
+    axios
+      .delete(`/users/${shortId}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 204) {
+          // 계정 삭제에 성공하면 성공 메시지를 표시하거나 다른 조치를 취할 수 있습니다.
+          alert("계정이 성공적으로 삭제되었습니다.");
+          // 여기에 필요한 추가 조치를 수행하십시오.
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 404) {
+            alert("존재하지 않는 계정입니다.");
+          } else if (error.response.status === 400) {
+            alert("토큰이 없습니다. 로그인이 필요합니다.");
+          } else {
+            alert("탈퇴 중에 문제가 발생했습니다.");
+          }
+        } else {
+          alert("탈퇴 중에 문제가 발생했습니다.");
+        }
+      });
+  };
 
   const daum = window.daum;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
 
   const [isPostcodeOpen, setPostcodeOpen] = useState(false);
@@ -29,15 +126,13 @@ const Mypage = () => {
   const handleComplete = (data) => {
     setPostcode(data.zonecode);
     setAddress(data.address);
-    setPostcodeOpen(false); // Close the postcode popup
-    // Set the user's address to the selected address
+    setPostcodeOpen(false);
     setUser({ ...user, address: data.address });
   };
 
   const handleOpenPostcode = () => {
     new daum.Postcode({
       oncomplete: function (data) {
-        // Daum 우편번호 서비스에서 받아온 주소 데이터 처리
         const fullAddress = data.address;
         setUser({ ...user, address: fullAddress });
       },
@@ -49,7 +144,6 @@ const Mypage = () => {
 
     setUsingAccountAddress(true);
     setAddress(accountAddressValue);
-    // Set the user's address to the account address
     setUser({ ...user, address: accountAddressValue });
   };
 
@@ -74,7 +168,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.name}
+            value={user.userName}
             onChange={handleInputChange}
             name="name"
           />
@@ -107,7 +201,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.phoneNumber}
+            value={user.phone}
             onChange={handleInputChange}
             name="phoneNumber"
           />
@@ -135,12 +229,22 @@ const Mypage = () => {
           </Dialog>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleAccountUpdate}
+              >
                 계정 정보 변경
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="error" fullWidth>
+              <Button
+                variant="contained"
+                color="error"
+                fullWidth
+                onClick={handleAccountDelete}
+              >
                 탈퇴하기
               </Button>
             </Grid>
