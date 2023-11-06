@@ -6,6 +6,8 @@ import {
   Grid,
   Paper,
   Typography,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -37,6 +39,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("USER");
   const [emailError, setEmailError] = useState("");
 
   const validateEmail = (e) => {
@@ -61,12 +64,17 @@ const Register = () => {
     setName(e.target.value);
   };
 
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
+
   const handleRegistration = () => {
     // API 요청 데이터 준비
     const requestData = {
       userName: name,
       email: email,
       password: password,
+      role: role,
     };
 
     axios
@@ -145,6 +153,15 @@ const Register = () => {
                   value={confirmPassword}
                   onChange={validateConfirmPassword}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                  역할
+                </Typography>
+                <Select fullWidth value={role} onChange={handleRoleChange}>
+                  <MenuItem value="user">User</MenuItem>
+                  <MenuItem value="admin">Admin</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12}>
                 <Button
