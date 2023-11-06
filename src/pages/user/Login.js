@@ -7,13 +7,14 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-
+  const navigate = useNavigate();
   const validateEmail = (e) => {
     setEmail(e.target.value);
     const re = /\S+@\S+\.\S+/;
@@ -28,6 +29,26 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    const loginInfo = {
+      email,
+      password,
+    };
+    try {
+      await axios.post("/signin", loginInfo).then((response) => {
+        if (response.status === 200) {
+          const accessToken = response.headers
+            .get("Authorization")
+            .split(" ")[1];
+          localStorage.setItem("accessToken", accessToken);
+          navigate("/");
+        }
+      });
+    } catch (e) {
+      throw new Error("로그인 실패!");
+    }
+  };
   return (
     <div
       style={{
@@ -39,7 +60,7 @@ const Login = () => {
       <Container maxWidth="sm">
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
           <h2 style={{ textAlign: "center" }}>로그인</h2>
-          <form>
+          <form onSubmit={handleLoginSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h7" sx={{ fontWeight: "bold" }}>
@@ -67,7 +88,12 @@ const Login = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button variant="contained" color="primary" fullWidth>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
                   로그인
                 </Button>
               </Grid>

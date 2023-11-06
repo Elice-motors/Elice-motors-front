@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   ImageListItem,
@@ -9,52 +9,26 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-
-// 임시 데이터
-const suvItems = [
-  {
-    id: 15436,
-    carName: "SUV T10",
-    img: "/car1.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 2325436,
-    carName: "SUV T10",
-    img: "/car1.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 335236,
-    carName: "SUV T10",
-    img: "/car1.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 335233426,
-    carName: "SUV T10",
-    img: "/car1.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 335253236,
-    carName: "SUV T10",
-    img: "/car1.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-];
+import axios from "axios";
 
 const CategorySUV = () => {
+  const [suvItems, setSuvItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios.get("/category/suv").then((response) => {
+          if (response.status === 200) {
+            setSuvItems(response.data.category);
+          }
+        });
+      } catch (e) {
+        throw new Error("불러오기 실패");
+      }
+    };
+    fetchData();
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -71,9 +45,9 @@ const CategorySUV = () => {
         </Typography>
         <Slider {...settings}>
           {suvItems.map((item) => (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={item.carId}>
               <Link
-                to={`/${item.id}`}
+                to={`/${item.carId}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <ImageListItem sx={{ marginRight: "10px" }}>

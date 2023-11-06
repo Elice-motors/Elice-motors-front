@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   ImageListItem,
@@ -9,51 +9,25 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-// 임시 데이터
-const electricItems = [
-  {
-    id: 1543623,
-    carName: "Electric T10",
-    img: "/car3.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 232543623,
-    carName: "Electric T10",
-    img: "/car3.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 3352236,
-    carName: "Electric T10",
-    img: "/car3.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 52236,
-    carName: "Electric T10",
-    img: "/car3.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 652236,
-    carName: "Electric T10",
-    img: "/car3.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-];
 const CategoryElec = () => {
+  const [electricItems, setElectricItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios.get("/category/sedan").then((response) => {
+          if (response.status === 200) {
+            setElectricItems(response.data.category);
+          }
+        });
+      } catch (e) {
+        throw new Error("불러오기 실패");
+      }
+    };
+    fetchData();
+  }, []);
   const settings = {
     dots: true,
     infinite: true,
@@ -70,9 +44,9 @@ const CategoryElec = () => {
         </Typography>
         <Slider {...settings}>
           {electricItems.map((item) => (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={item.carId}>
               <Link
-                to={`/${item.id}`}
+                to={`/${item.carId}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <ImageListItem sx={{ marginRight: "10px" }}>
