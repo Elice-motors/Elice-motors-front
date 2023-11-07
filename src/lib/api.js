@@ -5,6 +5,7 @@ export const login = (loginInfo) => {
 };
 
 export const signup = (userData) => {
+<<<<<<< HEAD
   return axios.post("/api/signup", userData);
 };
 
@@ -33,4 +34,7 @@ export const deleteUserInfo = (shortId, accessToken) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+=======
+  return axios.post("api/signup", userData);
+>>>>>>> cfe922b45f40801e44d6b1bc1d0534e1eaa41d7d
 };
