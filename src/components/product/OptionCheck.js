@@ -14,18 +14,27 @@ import {
 
 const OptionCheck = ({ car, options }) => {
   const [value, setValue] = useState(0);
-  //const [priceChangeCar, setPriceChangeCar] = useState({});
   const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
   const handleChange = (event) => {
     setValue(Number(event.target.value));
   };
   const handleCartClick = () => {
-    navigate("/cart");
+    const selectedOption = options.find(
+      (option) => option.additionalPrice === value
+    );
+    if (selectedOption) {
+      const updatedCar = {
+        ...car,
+        carPrice: car.carPrice + selectedOption.additionalPrice,
+      };
+
+      setCartItems([...cartItems, updatedCar]); // 선택된 옵션을 장바구니에 추가
+    }
   };
   const handleOrderClick = () => {
-    navigate("/directorder");
+    navigate(`/directorder/${car.carId}`);
   };
-
   return (
     <>
       <Card
@@ -52,7 +61,7 @@ const OptionCheck = ({ car, options }) => {
                   <FormControlLabel
                     value={option.additionalPrice}
                     control={<Radio />}
-                    label={option.name}
+                    label={`${option.name} +${option.additionalPrice}`}
                   />
                 </React.Fragment>
               ))}
