@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { getCategorySuv } from "../../lib/api";
 
 const CategorySUV = () => {
   const [suvItems, setSuvItems] = useState([]);
@@ -17,11 +17,10 @@ const CategorySUV = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("/api/category/suv").then((response) => {
-          if (response.status === 200) {
-            setSuvItems(response.data.category);
-          }
-        });
+        const response = await getCategorySuv();
+        if (response.status === 200) {
+          setSuvItems(response.data.category);
+        }
       } catch (e) {
         throw new Error("불러오기 실패");
       }

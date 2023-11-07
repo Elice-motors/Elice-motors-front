@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { getBannerProduct } from "../../lib/api";
 
 const MainProductBanner = () => {
   const [newItem, setNewItem] = useState({});
@@ -15,11 +15,10 @@ const MainProductBanner = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("/api/cars/2").then((response) => {
-          if (response.status === 200) {
-            setNewItem(response.data.car);
-          }
-        });
+        const response = await getBannerProduct();
+        if (response.status === 200) {
+          setNewItem(response.data.car);
+        }
       } catch (e) {
         throw new Error("불러오기 실패");
       }
