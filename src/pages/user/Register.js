@@ -70,6 +70,16 @@ const Register = () => {
   };
 
   const handleRegistration = () => {
+    if (emailError) {
+      alert("이메일 형식이 올바르지 않습니다.");
+      return; // 이메일 오류가 있으면 여기서 함수 실행을 중단합니다.
+    }
+
+    if (password !== confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return; // 비밀번호가 일치하지 않으면 여기서 함수 실행을 중단합니다.
+    }
+
     // API 요청 데이터 준비
     const requestData = {
       userName: name,
