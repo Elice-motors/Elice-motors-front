@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, TextField, Typography, Grid } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
+import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
 import { getUserInfo, updateUserInfo, deleteUserInfo } from "../../lib/api";
 
 const Mypage = () => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -14,47 +23,44 @@ const Mypage = () => {
     phone: "",
     address: "",
   });
-
   const shortId = localStorage.getItem("shortId");
   const accessToken = localStorage.getItem("accessToken");
 
-  // useEffect에서 사용자 정보를 가져옵니다.
+  // 사용자 정보 가져오기
   useEffect(() => {
-    if (accessToken && shortId) {
-      getUserInfo(shortId, accessToken)
-        .then((response) => {
-          setUser(response.data.user);
-        })
-        .catch((error) => {
-          console.error("사용자 정보 가져오기 실패:", error);
-        });
-    }
-  }, [accessToken, shortId]);
-
-  // 사용자 정보 업데이트를 위한 핸들러
-  const handleAccountUpdate = async () => {
-    try {
-      await updateUserInfo(shortId, accessToken, {
-        userName: user.userName,
-        email: user.email,
-        age: user.age,
-        phone: user.phone,
-        address: user.address,
+    getUserInfo(shortId, accessToken)
+      .then((data) => {
+        setUser(data.user); // 여기서 data는 response.data와 동일
+      })
+      .catch((error) => {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
       });
-      alert("계정 정보가 성공적으로 변경되었습니다.");
-    } catch (error) {
-      console.error("API 호출 실패:", error);
-    }
-  };
+  }, []);
 
-  // 사용자 계정 삭제를 위한 핸들러
-  const handleAccountDelete = async () => {
-    try {
-      await deleteUserInfo(shortId, accessToken);
-      alert("계정이 성공적으로 삭제되었습니다.");
-    } catch (error) {
-      console.error("API 호출 실패:", error);
-    }
+  // 사용자 정보 업데이트
+  const handleUpdate = (updatedInfo) => {
+    updateUserInfo(shortId, accessToken, updatedInfo)
+      .then((data) => {
+        // 업데이트 성공 후의 로직
+        setUser(data.user);
+        console.log("계정 정보가 업데이트되었습니다.");
+      })
+      .catch((error) => {
+        console.error("계정 정보 업데이트에 실패했습니다:", error);
+      });
+  };
+  // 사용자 계정 삭제
+  const handleDelete = () => {
+    deleteUserInfo(shortId, accessToken)
+      .then(() => {
+        // 삭제 성공 후의 로직
+        console.log("계정이 삭제되었습니다.");
+        // 로그아웃 처리나 메인 페이지로 리다이렉션 등의 로직을 추가할 수 있습니다.
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("계정 삭제에 실패했습니다:", error);
+      });
   };
 
   const daum = window.daum;
@@ -182,7 +188,7 @@ const Mypage = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={handleAccountUpdate}
+                onClick={handleUpdate}
               >
                 계정 정보 변경
               </Button>
@@ -192,7 +198,7 @@ const Mypage = () => {
                 variant="contained"
                 color="error"
                 fullWidth
-                onClick={handleAccountDelete}
+                onClick={handleDelete}
               >
                 탈퇴하기
               </Button>
