@@ -70,7 +70,7 @@ const Register = () => {
     setRole(e.target.value);
   };
 
-  const handleRegistration = () => {
+  const handleRegistration = async () => {
     if (emailError) {
       alert("이메일 형식이 올바르지 않습니다.");
       return; // 이메일 오류가 있으면 여기서 함수 실행을 중단합니다.
@@ -89,21 +89,21 @@ const Register = () => {
       role: role,
     };
 
-    signup(requestData)
-      .then((response) => {
-        if (response.status === 201) {
-          // 회원가입 성공
-          alert("회원가입에 성공했습니다.");
-          // shortId 저장
-          setShortId(response.data.user.shortId); // 예를 들어, API 응답에서 shortId를 어떻게 가져올지 확인하세요.
+    try {
+      const response = await signup(requestData);
+      if (response.status === 201) {
+        // 회원가입 성공
+        alert("회원가입에 성공했습니다.");
+        // shortId 저장
+        setShortId(response.data.user.shortId); // API 응답에서 shortId를 가져옵니다.
 
-          // 로컬 스토리지에 shortId 저장
-          localStorage.setItem("shortId", response.data.user.shortId);
-          navigate("/login");
-        }
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
+        // 로컬 스토리지에 shortId 저장
+        localStorage.setItem("shortId", response.data.user.shortId);
+        navigate("/login");
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
           if (error.response.data.message === "이미 가입한 이메일입니다.") {
             alert("이미 가입한 이메일입니다.");
           } else if (
@@ -113,9 +113,13 @@ const Register = () => {
             alert("이름, 이메일, 비밀번호는 필수입니다.");
           }
         } else {
-          console.error("API 요청 실패:", error);
+          // 다른 HTTP 상태 코드에 대한 처리를 여기에 추가할 수 있습니다.
         }
-      });
+      } else {
+        console.error("API 요청 실패:", error);
+        // 네트워크 오류나 기타 예상치 못한 오류 처리를 여기에 추가할 수 있습니다.
+      }
+    }
   };
 
   return (
