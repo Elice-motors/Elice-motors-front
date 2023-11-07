@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { login } from "../../lib/api";
 
 const Login = () => {
@@ -40,7 +39,9 @@ const Login = () => {
       const response = await login(loginInfo);
       if (response.status === 200) {
         const accessToken = response.headers.get("Authorization").split(" ")[1];
+        const shortId = response.data.user.shortId;
         localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("shortId", shortId);
         navigate("/");
       }
     } catch (e) {
