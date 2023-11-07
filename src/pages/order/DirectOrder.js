@@ -3,7 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import CartCheck from "../../components/cart/CartCheck";
 import CartOne from "../../components/cart/CartOne";
 
-const Cart = () => {
+const DirectOrder = () => {
   const carsData = [
     {
       id: 1,
@@ -47,4 +47,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default DirectOrder;
