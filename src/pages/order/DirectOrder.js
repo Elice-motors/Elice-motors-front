@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import CartCheck from "../../components/cart/CartCheck";
 import CartOne from "../../components/cart/CartOne";
+import { useParams } from "react-router-dom";
+import { getCarDetail } from "../../lib/api";
 
 const DirectOrder = () => {
-  const carsData = [
-    {
-      id: 1,
-      name: "차량 1",
-      maxSpeed: 225,
-      mileage: 10,
-      fuel: "5.7",
-      color: "Black",
-      image: "/car1.jpg",
-      price: 50000000,
-      option: "라이트",
-    },
-  ];
-
-  const [cart, setCart] = useState(carsData);
+  const { carId } = useParams();
+  const [cart, setCart] = useState([{}]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getCarDetail(carId);
+        if (response.status === 200) {
+          setCart([response.data.car]);
+        }
+      } catch (e) {
+        throw new Error("실패");
+      }
+    };
+    fetchData();
+  }, [carId]);
 
   return (
     <div
@@ -35,7 +37,7 @@ const DirectOrder = () => {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <CartOne car={cart[0]} setCart={setCart} />
+            <CartOne car={cart[0]} />
           </Grid>
 
           <Grid item xs={6}>

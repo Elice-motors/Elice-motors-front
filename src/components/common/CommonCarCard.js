@@ -16,15 +16,15 @@ const CommonCarCard = ({
         </Grid>
       )}
       <Grid item xs={card ? 7 : 3}>
-        <Link to={`/${car.id}`}>
-          <img src={car.image} alt={car.name} style={{ width: "100%" }} />
+        <Link to={`/${car.carId}`}>
+          <img src={car.img} alt={car.carName} style={{ width: "100%" }} />
         </Link>
         {card && (
           <Typography
             variant="h6"
             style={{ marginTop: "10px", fontWeight: "bold" }}
           >
-            {car.name}
+            {car.carName}
           </Typography>
         )}
       </Grid>
@@ -32,7 +32,7 @@ const CommonCarCard = ({
         <Typography>옵션: {car.option}</Typography>
         <Typography>색상: {car.color}</Typography>
         <Typography style={{ fontWeight: "bold", display: "inline" }}>
-          {`결제 금액: ${car.price.toLocaleString()} `}
+          {`결제 금액: ${car.carPrice}`}
         </Typography>
       </Grid>
       {actionComponent && (

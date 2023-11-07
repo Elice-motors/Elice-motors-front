@@ -9,41 +9,37 @@ import { Link } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { fetchUserInfo, createPayment } from "../../lib/api";
 
-const CartCheck = ({ cart, userId, setUserId }) => {
-  const totalAmount = cart.reduce((total, car) => total + car.price, 0);
+const CartCheck = ({ cart }) => {
+  const totalAmount = cart.reduce((total, car) => total + car.carPrice, 0);
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [isPostcodeOpen, setPostcodeOpen] = useState(false);
-  const [postcode, setPostcode] = useState("");
   const [address, setAddress] = useState("");
-  const [isUsingAccountAddress, setUsingAccountAddress] = useState(false);
 
   const handleComplete = (data) => {
-    setPostcode(data.zonecode);
     setAddress(data.address);
     setPostcodeOpen(false); // Close the postcode popup
   };
 
-  const useAccountAddress = () => {
-    if (user) {
-      // 'user' 객체에 저장된 계정 주소와 이름을 사용합니다.
-      setUsingAccountAddress(true);
-      setAddress(user.address);
-      setName(user.userName);
-    } else {
-      console.log("사용자 정보가 없습니다.");
-      // 여기에서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 줄 수 있습니다.
-    }
+  const useSameAccount = () => {
+    setName(user.userName);
+    setAddress(user.address);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetchUserInfo(shortId);
-  //     console.log(response);
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchUserInfo();
+        if (response.status === 200) {
+          setUser(response.data.user);
+        }
+      } catch (e) {
+        throw new Error("실패");
+      }
+    };
+    fetchData();
+  }, []);
 
   // POST 요청을 보내는 함수
   // const handlePayment = () => {
@@ -87,7 +83,7 @@ const CartCheck = ({ cart, userId, setUserId }) => {
             variant="h4"
             style={{ fontWeight: "bold", margin: "10px" }}
           >
-            {totalAmount.toLocaleString()}원
+            {totalAmount}
           </Typography>
           <Divider variant="middle" />
           <div
@@ -96,7 +92,7 @@ const CartCheck = ({ cart, userId, setUserId }) => {
             <Typography variant="h5" style={{ fontWeight: "bold", flex: "1" }}>
               주문 정보
             </Typography>
-            <Link onClick={useAccountAddress}>계정 정보와 동일하게 적용</Link>
+            <Link onClick={useSameAccount}>계정 정보와 동일하게 적용</Link>
           </div>
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             이름
@@ -106,7 +102,7 @@ const CartCheck = ({ cart, userId, setUserId }) => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={isUsingAccountAddress ? user.userName : name}
+            value={name ? name : ""}
             onChange={(e) => setName(e.target.value)}
             placeholder="이름을 입력하세요"
           />
@@ -116,10 +112,9 @@ const CartCheck = ({ cart, userId, setUserId }) => {
           <TextField
             variant="outlined"
             fullWidth
+            placeholder="배송지 주소를 입력하세요"
             margin="normal"
-            value={
-              isUsingAccountAddress ? user.address : `${postcode} ${address}`
-            }
+            value={address ? address : ""}
             onClick={() => setPostcodeOpen(true)}
           />
           <Dialog
@@ -132,16 +127,15 @@ const CartCheck = ({ cart, userId, setUserId }) => {
               <DaumPostcode onComplete={handleComplete} />
             </DialogContent>
           </Dialog>
-          <Link to="/ordersuccess">
-            {/* <Button
-              variant="contained"
-              color="primary"
-              style={{ width: "100%" }}
-              onClick={handlePayment} // 결제 함수 연결
-            >
-              결제하기
-            </Button> */}
-          </Link>
+
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ width: "100%" }}
+            //onClick={handlePayment} // 결제 함수 연결
+          >
+            결제하기
+          </Button>
         </CardContent>
       </Card>
     </>

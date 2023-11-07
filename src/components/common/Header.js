@@ -45,6 +45,7 @@ const Header = () => {
       const response = await logout();
       if (response.status === 204) {
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("shortId");
         navigate("/");
       }
     } catch (e) {
