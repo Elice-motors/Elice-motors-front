@@ -41,7 +41,7 @@ const Mypage = () => {
           console.error("사용자 정보 가져오기 실패:", error);
         });
     }
-  });
+  }, []);
 
   const handleAccountUpdate = () => {
     // 변경된 사용자 정보를 수집
