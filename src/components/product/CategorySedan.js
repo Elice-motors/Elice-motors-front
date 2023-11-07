@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { getCategorySedan } from "../../lib/api";
 
 const CategorySedan = () => {
   const [sedanItems, setSedanItems] = useState([]);
@@ -17,11 +17,10 @@ const CategorySedan = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("/api/category/sedan").then((response) => {
-          if (response.status === 200) {
-            setSedanItems(response.data.category);
-          }
-        });
+        const response = await getCategorySedan();
+        if (response.status === 200) {
+          setSedanItems(response.data.category);
+        }
       } catch (e) {
         throw new Error("불러오기 실패");
       }
