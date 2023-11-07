@@ -79,7 +79,7 @@ const Cart = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <CartCheck cart={cart} />
+          <CartCheck cart={cart} userId={userId} />
         </Grid>
       </Grid>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
+import { Grid } from "@mui/material";
 
 const cardStyle = {
   marginBottom: "20px",
@@ -13,7 +13,7 @@ const OrderCardContent = ({ order }) => {
   return (
     <Card style={cardStyle}>
       <CardContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} justifyContent="space-between">
           <Grid item xs={3}>
             <img
               src={order.carImage}
@@ -28,8 +28,19 @@ const OrderCardContent = ({ order }) => {
             <Typography>옵션: {order.option}</Typography>
             <Typography>색상: {order.color}</Typography>
           </Grid>
-          <Grid item xs={3}>
-            <Typography variant="h7">결제 금액: {order.price} 원</Typography>
+          <Grid
+            item
+            xs={3}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <Typography variant="h7" style={{ fontWeight: "bold" }}>
+              결제 금액
+            </Typography>
+            <Typography variant="h7">{order.price} 원</Typography>
           </Grid>
         </Grid>
       </CardContent>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
@@ -7,10 +7,12 @@ import Divider from "@mui/material/Divider";
 import { Typography, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { Link } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
+import axios from "axios";
 
 const CartCheck = ({ cart }) => {
   const totalAmount = cart.reduce((total, car) => total + car.price, 0);
 
+  const [name, setName] = useState("");
   const [isPostcodeOpen, setPostcodeOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
   const [address, setAddress] = useState("");
@@ -27,6 +29,73 @@ const CartCheck = ({ cart }) => {
 
     setUsingAccountAddress(true);
     setAddress(accountAddressValue);
+  };
+
+  const accessToken = localStorage.getItem("accessToken");
+  const shortId = localStorage.getItem("shortId");
+
+  const fetchUserInfo = async () => {
+    if (!accessToken) {
+      console.log("사용자가 로그인하지 않았습니다.");
+      // 로그인 페이지로 리다이렉트하는 로직을 추가할 수 있습니다.
+      return;
+    }
+
+    try {
+      const response = await axios.get(`/api/users/${shortId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      // 여기에 사용자 정보를 처리하는 로직을 추가하세요.
+      console.log(response.data);
+      // 예를 들어, 사용자 정보를 state에 저장하거나 다른 작업을 수행할 수 있습니다.
+    } catch (error) {
+      console.error("사용자 정보 가져오기 실패:", error.response || error);
+      // 사용자에게 오류가 발생했음을 알리거나 로그인 페이지로 리다이렉트할 수 있습니다.
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  // POST 요청을 보내는 함수
+  const handlePayment = async () => {
+    // API 요청에 필요한 데이터를 구성
+    const paymentData = {
+      products: cart.map((item) => ({
+        productInfo: {
+          name: item.name,
+          color: item.color,
+          option: item.option,
+          price: item.price,
+        },
+        quantity: item.quantity,
+      })),
+      amountInfo: totalAmount,
+      userId: userId,
+      address: address,
+      status: "주문 완료",
+    };
+
+    try {
+      // API에 POST 요청을 보냅니다
+      const response = await axios.post("/api/payment", paymentData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // 성공적으로 응답이 온 경우 처리
+      console.log(response.data);
+      // 여기에 성공 시 로직을 추가하세요. 예: 페이지 리다이렉트 등
+    } catch (error) {
+      // 오류 처리
+      console.error("Payment API Error:", error);
+      // 사용자에게 오류가 발생했음을 알리는 로직을 추가하세요.
+    }
   };
 
   return (
@@ -57,7 +126,14 @@ const CartCheck = ({ cart }) => {
             이름
             <br />
           </Typography>
-          <TextField variant="outlined" fullWidth margin="normal" />
+          <TextField
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="이름을 입력하세요"
+          />
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             배송지 주소
           </Typography>
@@ -83,8 +159,9 @@ const CartCheck = ({ cart }) => {
               variant="contained"
               color="primary"
               style={{ width: "100%" }}
+              onClick={handlePayment} // 결제 함수 연결
             >
-              주문하기
+              결제하기
             </Button>
           </Link>
         </CardContent>
