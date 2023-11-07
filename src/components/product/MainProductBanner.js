@@ -15,7 +15,7 @@ const MainProductBanner = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("/cars/2").then((response) => {
+        await axios.get("/api/cars/2").then((response) => {
           if (response.status === 200) {
             setNewItem(response.data.car);
           }

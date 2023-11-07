@@ -45,7 +45,7 @@ const Header = () => {
     try {
       await axios
         .post(
-          "/signout",
+          "/api/signout",
           {},
           {
             headers: {

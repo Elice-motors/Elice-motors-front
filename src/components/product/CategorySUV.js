@@ -17,7 +17,7 @@ const CategorySUV = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("/category/suv").then((response) => {
+        await axios.get("/api/category/suv").then((response) => {
           if (response.status === 200) {
             setSuvItems(response.data.category);
           }

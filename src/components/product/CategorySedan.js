@@ -17,7 +17,7 @@ const CategorySedan = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("/category/sedan").then((response) => {
+        await axios.get("/api/category/sedan").then((response) => {
           if (response.status === 200) {
             setSedanItems(response.data.category);
           }
