@@ -3,7 +3,7 @@ import CommonCarCard from "../common/CommonCarCard";
 const CartOne = ({ car }) => {
   return (
     <>
-      <CommonCarCard car={car} card={true} />
+      <CommonCarCard car={car} card />
     </>
   );
 };
