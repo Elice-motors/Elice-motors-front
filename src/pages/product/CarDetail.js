@@ -1,26 +1,27 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import DetailInfo from "../../components/product/DetailInfo";
 import OptionCheck from "../../components/product/OptionCheck";
+import { getCarDetail, getOptions } from "../../lib/api";
 
 const CarDetail = () => {
   const { carId } = useParams();
-
-  // 제품 상세관련 임시 데이터
-  // 나중에 useParams를 통해 가져온 carId 값으로 차량 상세 api 호출 후 데이터 사용 예정
-  const carItem = {
-    id: carId,
-    name: "SUV Model I30",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.7,
-    color: "black",
-    image: "/car1.jpg",
-    price: 50000000,
-    option: "light",
-  };
-
+  const [carItem, setCarItem] = useState({});
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const carResponse = await getCarDetail(carId);
+      const optionResponse = await getOptions();
+      if (carResponse.status === 200) {
+        setCarItem(carResponse.data.car);
+      }
+      if (optionResponse.status === 200) {
+        setOptions(optionResponse.data.options);
+      }
+    };
+    fetchData();
+  }, [carId]);
   return (
     <>
       <div
@@ -37,7 +38,7 @@ const CarDetail = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <OptionCheck car={carItem} />
+            <OptionCheck car={carItem} options={options} />
           </Grid>
         </Grid>
       </div>
