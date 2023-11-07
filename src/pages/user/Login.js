@@ -36,7 +36,7 @@ const Login = () => {
       password,
     };
     try {
-      await axios.post("/signin", loginInfo).then((response) => {
+      await axios.post("/api/signin", loginInfo).then((response) => {
         if (response.status === 200) {
           const accessToken = response.headers
             .get("Authorization")

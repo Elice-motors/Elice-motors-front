@@ -6,17 +6,62 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Avatar,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { deepOrange } from "@mui/material/colors";
 
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [productAnchorEl, setProductAnchorEl] = useState(null);
+  const [userInfoAnchorEl, setUserInfoAnchorEl] = useState(null);
+  const productOpen = Boolean(productAnchorEl);
+  const userInfoOpen = Boolean(userInfoAnchorEl);
+  const navigate = useNavigate();
+  const handleProductClick = (event) => {
+    setProductAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleProductClose = () => {
+    setProductAnchorEl(null);
+  };
+  const handleUserClick = (event) => {
+    setUserInfoAnchorEl(event.currentTarget);
+  };
+  const handleUserClose = () => {
+    setUserInfoAnchorEl(null);
+  };
+
+  const handleMypage = () => {
+    handleUserClose();
+    navigate("/mypage");
+  };
+  const handleAdminpage = () => {
+    handleUserClose();
+    navigate("/admin-item");
+  };
+  const handlelogout = async () => {
+    handleUserClose();
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      await axios
+        .post(
+          "/api/signout",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status === 204) {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+          }
+        });
+    } catch (e) {
+      throw new Error("실패");
+    }
   };
   return (
     <>
@@ -47,22 +92,26 @@ const Header = () => {
           <div>
             <Button
               id="product-menu"
-              aria-controls={open ? "product-menu" : undefined}
+              aria-controls={productOpen ? "product-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
+              aria-expanded={productOpen ? "true" : undefined}
+              onClick={handleProductClick}
               sx={{
                 color: "black",
                 padding: "10px 20px",
                 fontSize: "17px",
               }}
             >
-              {open ? `제품🔼` : `제품🔽`}
+              {productOpen ? `제품🔼` : `제품🔽`}
             </Button>
-            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>SUV/RV</MenuItem>
-              <MenuItem onClick={handleClose}>세단</MenuItem>
-              <MenuItem onClick={handleClose}>전기차</MenuItem>
+            <Menu
+              anchorEl={productAnchorEl}
+              open={productOpen}
+              onClose={handleProductClose}
+            >
+              <MenuItem onClick={handleProductClose}>SUV/RV</MenuItem>
+              <MenuItem onClick={handleProductClose}>세단</MenuItem>
+              <MenuItem onClick={handleProductClose}>전기차</MenuItem>
             </Menu>
           </div>
           <Typography variant="subtitle1">
@@ -78,14 +127,38 @@ const Header = () => {
               주문내역
             </Link>
           </Typography>
-          <Link to="/login">
-            <Button
-              variants="subtitle1"
-              sx={{ bgcolor: "primary.main", color: "white" }}
-            >
-              로그인
-            </Button>
-          </Link>
+          {localStorage.getItem("accessToken") ? (
+            <div>
+              <Avatar
+                sx={{ bgcolor: deepOrange[500], cursor: "pointer" }}
+                id="user-info"
+                aria-controls={userInfoOpen ? "user-info" : undefined}
+                aria-haspopup="true"
+                aria-expanded={userInfoOpen ? "true" : undefined}
+                onClick={handleUserClick}
+              >
+                U
+              </Avatar>
+              <Menu
+                anchorEl={userInfoAnchorEl}
+                open={userInfoOpen}
+                onClose={handleUserClose}
+              >
+                <MenuItem onClick={handleMypage}>계정정보</MenuItem>
+                <MenuItem onClick={handleAdminpage}>관리자 페이지</MenuItem>
+                <MenuItem onClick={handlelogout}>로그아웃</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Link to="/login">
+              <Button
+                variants="subtitle1"
+                sx={{ bgcolor: "primary.main", color: "white" }}
+              >
+                로그인
+              </Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
     </>
