@@ -82,7 +82,7 @@ const Register = () => {
     }
 
     // API 요청 데이터 준비
-    const requestData = {
+    const userData = {
       userName: name,
       email: email,
       password: password,
@@ -90,7 +90,8 @@ const Register = () => {
     };
 
     try {
-      const response = await signup(requestData);
+      // signup 함수를 await으로 호출하여 응답을 기다립니다.
+      const response = await signup(userData);
       if (response.status === 201) {
         // 회원가입 성공
         alert("회원가입에 성공했습니다.");
@@ -99,7 +100,7 @@ const Register = () => {
 
         // 로컬 스토리지에 shortId 저장
         localStorage.setItem("shortId", response.data.user.shortId);
-        navigate("/login");
+        navigate("/login"); // 로그인 페이지로 이동
       }
     } catch (error) {
       if (error.response) {
