@@ -33,6 +33,7 @@ const MainProductBanner = () => {
           sx={{ height: "650px" }}
           image={newItem.img}
           alt="Image Banner"
+          component="img"
         />
         <CardContent>
           <Typography variant="h5" component="div">
