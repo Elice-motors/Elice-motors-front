@@ -25,7 +25,7 @@ const Mypage = () => {
     if (accessToken) {
       // 사용자 정보를 서버에서 가져옵니다.
       axios
-        .get(`/users/${shortId}`, {
+        .get(`api/users/${shortId}`, {
           // shortId를 URL에 포함
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -53,7 +53,7 @@ const Mypage = () => {
       address: user.address,
     };
 
-    const apiUrl = `/users/${shortId}`; // shortId를 어떻게 얻는지에 따라 동적으로 생성
+    const apiUrl = `api/users/${shortId}`; // shortId를 어떻게 얻는지에 따라 동적으로 생성
 
     // API 요청 헤더 설정
 
@@ -91,7 +91,7 @@ const Mypage = () => {
   const handleAccountDelete = () => {
     // 사용자 정보를 서버에서 삭제합니다.
     axios
-      .delete(`/users/${shortId}`, {
+      .delete(`api/users/${shortId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -214,7 +214,7 @@ const Mypage = () => {
             margin="normal"
             value={user.phone}
             onChange={handleInputChange}
-            name="phoneNumber"
+            name="phone"
           />
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             배송지 주소
