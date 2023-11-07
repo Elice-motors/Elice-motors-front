@@ -89,7 +89,7 @@ const Register = () => {
     };
 
     axios
-      .post("/signup", requestData)
+      .post("api/signup", requestData)
       .then((response) => {
         if (response.status === 201) {
           // 회원가입 성공
