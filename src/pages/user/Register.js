@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { signup } from "../../lib/api";
 
 const CenteredLink = (props) => (
   <Link
@@ -88,8 +89,7 @@ const Register = () => {
       role: role,
     };
 
-    axios
-      .post("api/signup", requestData)
+    signup(requestData)
       .then((response) => {
         if (response.status === 201) {
           // 회원가입 성공
