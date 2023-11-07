@@ -1,24 +1,89 @@
-import React, { useState } from "react";
-import { Button, Container, TextField, Typography, Grid } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
+import { getUserInfo, updateUserInfo, deleteUserInfo } from "../../lib/api";
 
 const Mypage = () => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
-    name: "dodo",
-    email: "hido02@naver.com",
-    age: 30,
-    phoneNumber: "010-XXXX-XXXX",
-    address: "123 Main St, City, Country",
+    userName: "",
+    email: "",
+    age: "",
+    phone: "",
+    address: "",
   });
+  const shortId = localStorage.getItem("shortId");
+  const accessToken = localStorage.getItem("accessToken");
+
+  // 사용자 정보 가져오기
+  // useEffect(() => {
+  //   getUserInfo(shortId, accessToken)
+  //     .then((data) => {
+  //       setUser(data.user); // 여기서 data는 response.data와 동일
+  //     })
+  //     .catch((error) => {
+  //       console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+  //     });
+  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUserInfo();
+        if (response.status === 200) {
+          setUser(response.data.user);
+        }
+      } catch (e) {
+        throw new Error("실패");
+      }
+    };
+    fetchData();
+  }, []);
+
+  // 사용자 정보 업데이트
+  const handleUpdate = (updatedInfo) => {
+    updateUserInfo(shortId, accessToken, updatedInfo)
+      .then((data) => {
+        // 업데이트 성공 후의 로직
+        setUser(data.user);
+        console.log("계정 정보가 업데이트되었습니다.");
+      })
+      .catch((error) => {
+        console.error("계정 정보 업데이트에 실패했습니다:", error);
+      });
+  };
+  // 사용자 계정 삭제
+  const handleDelete = () => {
+    deleteUserInfo(shortId, accessToken)
+      .then(() => {
+        // 삭제 성공 후의 로직
+        console.log("계정이 삭제되었습니다.");
+        // 로그아웃 처리나 메인 페이지로 리다이렉션 등의 로직을 추가할 수 있습니다.
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("계정 삭제에 실패했습니다:", error);
+      });
+  };
 
   const daum = window.daum;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
 
   const [isPostcodeOpen, setPostcodeOpen] = useState(false);
@@ -29,15 +94,13 @@ const Mypage = () => {
   const handleComplete = (data) => {
     setPostcode(data.zonecode);
     setAddress(data.address);
-    setPostcodeOpen(false); // Close the postcode popup
-    // Set the user's address to the selected address
+    setPostcodeOpen(false);
     setUser({ ...user, address: data.address });
   };
 
   const handleOpenPostcode = () => {
     new daum.Postcode({
       oncomplete: function (data) {
-        // Daum 우편번호 서비스에서 받아온 주소 데이터 처리
         const fullAddress = data.address;
         setUser({ ...user, address: fullAddress });
       },
@@ -49,7 +112,6 @@ const Mypage = () => {
 
     setUsingAccountAddress(true);
     setAddress(accountAddressValue);
-    // Set the user's address to the account address
     setUser({ ...user, address: accountAddressValue });
   };
 
@@ -74,9 +136,9 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.name}
+            value={user.userName}
             onChange={handleInputChange}
-            name="name"
+            name="userName"
           />
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             이메일
@@ -96,7 +158,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.age}
+            value={user.age ? user.age : ""}
             onChange={handleInputChange}
             name="age"
           />
@@ -107,9 +169,9 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.phoneNumber}
+            value={user.phone ? user.phone : ""}
             onChange={handleInputChange}
-            name="phoneNumber"
+            name="phone"
           />
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             배송지 주소
@@ -119,7 +181,11 @@ const Mypage = () => {
             fullWidth
             margin="normal"
             value={
-              isUsingAccountAddress ? user.address : `${postcode} ${address}`
+              isUsingAccountAddress
+                ? user.address
+                  ? user.address
+                  : ""
+                : (postcode || "") + " " + (address || "")
             }
             onClick={() => setPostcodeOpen(true)}
           />
@@ -135,12 +201,22 @@ const Mypage = () => {
           </Dialog>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleUpdate}
+              >
                 계정 정보 변경
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="error" fullWidth>
+              <Button
+                variant="contained"
+                color="error"
+                fullWidth
+                onClick={handleDelete}
+              >
                 탈퇴하기
               </Button>
             </Grid>
