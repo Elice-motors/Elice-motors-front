@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { login } from "../../lib/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,15 +37,12 @@ const Login = () => {
       password,
     };
     try {
-      await axios.post("/api/signin", loginInfo).then((response) => {
-        if (response.status === 200) {
-          const accessToken = response.headers
-            .get("Authorization")
-            .split(" ")[1];
-          localStorage.setItem("accessToken", accessToken);
-          navigate("/");
-        }
-      });
+      const response = await login(loginInfo);
+      if (response.status === 200) {
+        const accessToken = response.headers.get("Authorization").split(" ")[1];
+        localStorage.setItem("accessToken", accessToken);
+        navigate("/");
+      }
     } catch (e) {
       throw new Error("로그인 실패!");
     }
