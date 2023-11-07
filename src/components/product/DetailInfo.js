@@ -6,11 +6,11 @@ const DetailInfo = ({ car }) => {
       <Card sx={{ padding: "20px" }}>
         <CardContent>
           <Typography variant="h3" style={{ fontWeight: "bold" }}>
-            {car.name}
+            {car.carName}
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={7}>
-              <img src={car.image} alt={car.name} style={{ width: "100%" }} />
+              <img src={car.img} alt={car.carName} style={{ width: "100%" }} />
             </Grid>
           </Grid>
           <Grid item xs={7}>
@@ -22,7 +22,7 @@ const DetailInfo = ({ car }) => {
                 variant="h6"
                 style={{ fontWeight: "bold", display: "inline" }}
               >
-                결제 금액: {car.price.toLocaleString()} 원
+                결제 금액: {car.carPrice}
               </Typography>
             </Container>
           </Grid>

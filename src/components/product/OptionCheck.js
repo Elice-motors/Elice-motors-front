@@ -12,11 +12,12 @@ import {
   Button,
 } from "@mui/material";
 
-const OptionCheck = ({ car }) => {
-  const [value, setValue] = useState("라이트");
+const OptionCheck = ({ car, options }) => {
+  const [value, setValue] = useState(0);
+  //const [priceChangeCar, setPriceChangeCar] = useState({});
   const navigate = useNavigate();
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setValue(Number(event.target.value));
   };
   const handleCartClick = () => {
     navigate("/cart");
@@ -24,6 +25,7 @@ const OptionCheck = ({ car }) => {
   const handleOrderClick = () => {
     navigate("/directorder");
   };
+
   return (
     <>
       <Card
@@ -45,21 +47,15 @@ const OptionCheck = ({ car }) => {
               value={value}
               onChange={handleChange}
             >
-              <FormControlLabel
-                value="라이트"
-                control={<Radio />}
-                label="라이트"
-              />
-              <FormControlLabel
-                value="시그니처"
-                control={<Radio />}
-                label="시그니처"
-              />
-              <FormControlLabel
-                value="스페셜"
-                control={<Radio />}
-                label="스페셜"
-              />
+              {options?.map((option) => (
+                <React.Fragment key={option.name}>
+                  <FormControlLabel
+                    value={option.additionalPrice}
+                    control={<Radio />}
+                    label={option.name}
+                  />
+                </React.Fragment>
+              ))}
             </RadioGroup>
           </FormControl>
           <Typography
@@ -81,7 +77,10 @@ const OptionCheck = ({ car }) => {
                 backgroundColor: `${car.color}`,
               }}
             />
-            <Typography variant="body1" style={{ fontWeight: "bold" }}>
+            <Typography
+              variant="body1"
+              style={{ fontWeight: "bold", marginLeft: "20px" }}
+            >
               {car.color}
             </Typography>
           </div>
