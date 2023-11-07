@@ -54,10 +54,9 @@ const OrdersList = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        height: "100vh",
       }}
     >
-      <Container maxWidth="sm" sx={{ marginTop: "100px" }}>
+      <Container maxWidth="sm" sx={{ marginTop: "80px" }}>
         <OrderHistory
           orders={orders}
           totalAmount={totalAmount}
