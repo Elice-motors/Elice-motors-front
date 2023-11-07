@@ -9,9 +9,10 @@ import { Link } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import axios from "axios";
 
-const CartCheck = ({ cart }) => {
+const CartCheck = ({ cart, userId, setUserId }) => {
   const totalAmount = cart.reduce((total, car) => total + car.price, 0);
 
+  const [user, setUser] = useState([]);
   const [name, setName] = useState("");
   const [isPostcodeOpen, setPostcodeOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
@@ -49,7 +50,9 @@ const CartCheck = ({ cart }) => {
       });
 
       // 여기에 사용자 정보를 처리하는 로직을 추가하세요.
-      console.log(response.data);
+      console.log(response.data.user);
+      setUser(response.data.user);
+      setUserId(response.data.user.id);
       // 예를 들어, 사용자 정보를 state에 저장하거나 다른 작업을 수행할 수 있습니다.
     } catch (error) {
       console.error("사용자 정보 가져오기 실패:", error.response || error);
@@ -118,9 +121,7 @@ const CartCheck = ({ cart }) => {
             <Typography variant="h5" style={{ fontWeight: "bold", flex: "1" }}>
               주문 정보
             </Typography>
-            <Link to="/account-address" onClick={useAccountAddress}>
-              계정 정보와 동일하게 적용
-            </Link>
+            <Link onClick={useAccountAddress}>계정 정보와 동일하게 적용</Link>
           </div>
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             이름
@@ -130,7 +131,7 @@ const CartCheck = ({ cart }) => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={name}
+            value={isUsingAccountAddress ? user.userName : name}
             onChange={(e) => setName(e.target.value)}
             placeholder="이름을 입력하세요"
           />
@@ -141,7 +142,9 @@ const CartCheck = ({ cart }) => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={isUsingAccountAddress ? address : `${postcode} ${address}`}
+            value={
+              isUsingAccountAddress ? user.address : `${postcode} ${address}`
+            }
             onClick={() => setPostcodeOpen(true)}
           />
           <Dialog

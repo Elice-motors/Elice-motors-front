@@ -64,6 +64,8 @@ const Cart = () => {
 
   const [cart, setCart] = useState(carData);
 
+  const [userId, setUserId] = useState(null);
+
   return (
     <div
       style={{
@@ -79,7 +81,7 @@ const Cart = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <CartCheck cart={cart} userId={userId} />
+          <CartCheck cart={cart} userId={userId} setUserId={setUserId} />
         </Grid>
       </Grid>
     </div>
