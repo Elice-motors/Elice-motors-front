@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   ImageListItem,
@@ -9,52 +9,25 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-
-// 임시 데이터
-const sedanItems = [
-  {
-    id: 1231241,
-    carName: "SEDAN T10",
-    img: "/car2.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 232151254,
-    carName: "SEDAN T10",
-    img: "/car2.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 3643543,
-    carName: "SEDAN T10",
-    img: "/car2.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 435436564,
-    carName: "SEDAN T10",
-    img: "/car2.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-  {
-    id: 36413452,
-    carName: "SEDAN T10",
-    img: "/car2.jpg",
-    speed: 225,
-    mileage: 403,
-    fuel: 5.1,
-  },
-];
+import axios from "axios";
 
 const CategorySedan = () => {
+  const [sedanItems, setSedanItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios.get("/api/category/sedan").then((response) => {
+          if (response.status === 200) {
+            setSedanItems(response.data.category);
+          }
+        });
+      } catch (e) {
+        throw new Error("불러오기 실패");
+      }
+    };
+    fetchData();
+  }, []);
   const settings = {
     dots: true,
     infinite: true,
@@ -63,6 +36,7 @@ const CategorySedan = () => {
     slidesToScroll: 3,
     arrows: true,
   };
+
   return (
     <>
       <Container maxWidth="lg" sx={{ marginBottom: "30px" }}>
@@ -71,9 +45,9 @@ const CategorySedan = () => {
         </Typography>
         <Slider {...settings}>
           {sedanItems.map((item) => (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={item.carId}>
               <Link
-                to={`/${item.id}`}
+                to={`/${item.carId}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <ImageListItem sx={{ marginRight: "10px" }}>
