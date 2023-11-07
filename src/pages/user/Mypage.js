@@ -27,14 +27,27 @@ const Mypage = () => {
   const accessToken = localStorage.getItem("accessToken");
 
   // 사용자 정보 가져오기
+  // useEffect(() => {
+  //   getUserInfo(shortId, accessToken)
+  //     .then((data) => {
+  //       setUser(data.user); // 여기서 data는 response.data와 동일
+  //     })
+  //     .catch((error) => {
+  //       console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+  //     });
+  // }, []);
   useEffect(() => {
-    getUserInfo(shortId, accessToken)
-      .then((data) => {
-        setUser(data.user); // 여기서 data는 response.data와 동일
-      })
-      .catch((error) => {
-        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await getUserInfo();
+        if (response.status === 200) {
+          setUser(response.data.user);
+        }
+      } catch (e) {
+        throw new Error("실패");
+      }
+    };
+    fetchData();
   }, []);
 
   // 사용자 정보 업데이트
@@ -145,7 +158,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.age}
+            value={user.age ? user.age : ""}
             onChange={handleInputChange}
             name="age"
           />
@@ -156,7 +169,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={user.phone}
+            value={user.phone ? user.phone : ""}
             onChange={handleInputChange}
             name="phone"
           />
@@ -168,7 +181,11 @@ const Mypage = () => {
             fullWidth
             margin="normal"
             value={
-              isUsingAccountAddress ? user.address : `${postcode} ${address}`
+              isUsingAccountAddress
+                ? user.address
+                  ? user.address
+                  : ""
+                : (postcode || "") + " " + (address || "")
             }
             onClick={() => setPostcodeOpen(true)}
           />

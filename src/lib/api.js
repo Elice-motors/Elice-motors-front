@@ -9,7 +9,9 @@ export const signup = (userData) => {
 };
 
 // 사용자 정보 가져오기
-export const getUserInfo = (shortId, accessToken) => {
+export const getUserInfo = () => {
+  const accessToken = localStorage.getItem("accessToken");
+  const shortId = localStorage.getItem("shortId");
   return axios
     .get(`/api/users/${shortId}`, {
       headers: {
