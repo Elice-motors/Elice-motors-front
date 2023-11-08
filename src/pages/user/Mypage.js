@@ -75,6 +75,7 @@ const Mypage = () => {
       const response = await updateUserInfo(user);
       if (response.status === 200) {
         alert("계정 정보 수정 성공");
+        navigate("/");
       }
     } catch (e) {
       console.error("실패", e);
