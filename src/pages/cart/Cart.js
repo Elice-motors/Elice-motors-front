@@ -1,70 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import CartList from "../../components/cart/CartList";
 import CartCheck from "../../components/cart/CartCheck";
+import { useLocalForage } from "../../LocalForageContext";
 
 const Cart = () => {
-  const carData = [
-    {
-      id: 1,
-      name: "SUV Model I30",
-      maxSpeed: 225,
-      mileage: 10,
-      fuel: 5.7,
-      color: "Black",
-      image: "/car1.jpg",
-      price: 50000000,
-      option: "라이트",
-    },
-    {
-      id: 2,
-      name: "SUV Model I30",
-      maxSpeed: 225,
-      mileage: 10,
-      fuel: 5.7,
-      color: "Black",
-      image: "/car1.jpg",
-      price: 50000000,
-      option: "라이트",
-    },
-    {
-      id: 3,
-      name: "SUV Model I30",
-      maxSpeed: 225,
-      mileage: 10,
-      fuel: 5.7,
-      color: "Black",
-      image: "/car1.jpg",
-      price: 50000000,
-      option: "라이트",
-    },
-    {
-      id: 4,
-      name: "SUV Model I30",
-      maxSpeed: 225,
-      mileage: 10,
-      fuel: 5.7,
-      color: "Black",
-      image: "/car1.jpg",
-      price: 50000000,
-      option: "라이트",
-    },
-    {
-      id: 5,
-      name: "SUV Model I30",
-      maxSpeed: 225,
-      mileage: 10,
-      fuel: 5.7,
-      color: "Black",
-      image: "/car1.jpg",
-      price: 50000000,
-      option: "라이트",
-    },
-  ];
+  const { getItem } = useLocalForage();
 
-  const [cart, setCart] = useState(carData);
+  useEffect(() => {
+    getItem("CartList").then((items) => {
+      if (items) {
+        setCart(items);
+      }
+    });
+  }, [getItem]);
 
-  const [userId, setUserId] = useState(null);
+  const [cart, setCart] = useState([]);
 
   return (
     <div
@@ -81,7 +32,7 @@ const Cart = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <CartCheck cart={cart} userId={userId} setUserId={setUserId} />
+          <CartCheck cart={cart} />
         </Grid>
       </Grid>
     </div>
