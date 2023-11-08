@@ -13,28 +13,38 @@ import {
 } from "@mui/material";
 
 const OptionCheck = ({ car, options }) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("");
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
+  const [directCart, setDirectCart] = useState([]);
   const handleChange = (event) => {
-    setValue(Number(event.target.value));
+    setValue(event.target.value + "");
   };
-  const handleCartClick = () => {
+  const findOptionMatchAndUpdate = () => {
     const selectedOption = options.find(
-      (option) => option.additionalPrice === value
+      (option) => option.additionalPrice === Number(value)
     );
     if (selectedOption) {
       const updatedCar = {
         ...car,
         carPrice: car.carPrice + selectedOption.additionalPrice,
+        option: selectedOption.name,
       };
-
-      setCartItems([...cartItems, updatedCar]); // 선택된 옵션을 장바구니에 추가
+      return updatedCar;
     }
   };
+
+  const handleCartClick = () => {
+    const updatedCar = findOptionMatchAndUpdate();
+    setCartItems([...cartItems, updatedCar]); // 선택된 옵션을 장바구니에 추가
+  };
+
   const handleOrderClick = () => {
+    const updatedCar = findOptionMatchAndUpdate();
+    setDirectCart([...directCart, updatedCar]);
     navigate(`/directorder/${car.carId}`);
   };
+
   return (
     <>
       <Card
@@ -59,7 +69,7 @@ const OptionCheck = ({ car, options }) => {
               {options?.map((option) => (
                 <React.Fragment key={option.name}>
                   <FormControlLabel
-                    value={option.additionalPrice}
+                    value={option.additionalPrice + ""}
                     control={<Radio />}
                     label={`${option.name} +${option.additionalPrice}`}
                   />
