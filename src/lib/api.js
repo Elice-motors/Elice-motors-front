@@ -22,7 +22,10 @@ export const getUserInfo = () => {
 };
 
 // 사용자 정보 업데이트
-export const updateUserInfo = (shortId, accessToken, updatedUserInfo) => {
+export const updateUserInfo = (updatedUserInfo) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const shortId = localStorage.getItem("shortId");
+  console.log(accessToken);
   return axios
     .put(`/api/users/${shortId}`, updatedUserInfo, {
       headers: {
@@ -33,7 +36,9 @@ export const updateUserInfo = (shortId, accessToken, updatedUserInfo) => {
 };
 
 // 사용자 계정 삭제
-export const deleteUserInfo = (shortId, accessToken) => {
+export const deleteUserInfo = () => {
+  const accessToken = localStorage.getItem("accessToken");
+  const shortId = localStorage.getItem("shortId");
   return axios
     .delete(`/api/users/${shortId}`, {
       headers: {
@@ -81,15 +86,28 @@ export const getOptions = () => {
   return axios.get("/api/car-options").then((response) => response);
 };
 
-export const createPayment = (paymentData, accessToken) => {
+export const fetchUserInfo = () => {
+  const accessToken = localStorage.getItem("accessToken");
+  const shortId = localStorage.getItem("shortId");
   return axios
-    .post("/api/payment", paymentData, {
+    .get(`/api/users/${shortId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-    .then((response) => response.data);
+    .then((response) => response);
 };
+
+// export const createPayment = (paymentData, accessToken) => {
+//   const accessToken = localStorage.getItem("accessToken");
+//   return axios
+//     .post("/api/payment", paymentData, {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     })
+//     .then((response) => response.data);
+// };
 
 // 전체 상품 조회
 export const getAllProducts = () => {

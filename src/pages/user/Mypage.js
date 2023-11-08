@@ -11,7 +11,12 @@ import {
   DialogContent,
 } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
-import { getUserInfo, updateUserInfo, deleteUserInfo } from "../../lib/api";
+import {
+  getUserInfo,
+  updateUserInfo,
+  deleteUserInfo,
+  logout,
+} from "../../lib/api";
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -50,26 +55,40 @@ const Mypage = () => {
     fetchData();
   }, []);
 
-  // 사용자 정보 업데이트
-  const handleUpdate = (updatedInfo) => {
-    updateUserInfo(shortId, accessToken, updatedInfo)
-      .then((data) => {
-        // 업데이트 성공 후의 로직
-        setUser(data.user);
-        console.log("계정 정보가 업데이트되었습니다.");
-      })
-      .catch((error) => {
-        console.error("계정 정보 업데이트에 실패했습니다:", error);
-      });
+  const handlelogout = async () => {
+    // handleUserClose();
+    try {
+      const response = await logout();
+      if (response.status === 204) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("shortId");
+        navigate("/");
+      }
+    } catch (e) {
+      throw new Error("실패");
+    }
   };
+
+  // 사용자 정보 업데이트
+  const handleUpdate = async () => {
+    try {
+      const response = await updateUserInfo(user);
+      if (response.status === 200) {
+        alert("계정 정보 수정 성공");
+        navigate("/");
+      }
+    } catch (e) {
+      console.error("실패", e);
+    }
+  };
+
   // 사용자 계정 삭제
   const handleDelete = () => {
     deleteUserInfo(shortId, accessToken)
       .then(() => {
         // 삭제 성공 후의 로직
-        console.log("계정이 삭제되었습니다.");
-        // 로그아웃 처리나 메인 페이지로 리다이렉션 등의 로직을 추가할 수 있습니다.
-        navigate("/");
+        alert("계정이 삭제되었습니다.");
+        handlelogout();
       })
       .catch((error) => {
         console.error("계정 삭제에 실패했습니다:", error);
