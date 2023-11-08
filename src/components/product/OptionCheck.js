@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Typography,
@@ -11,12 +11,41 @@ import {
   Box,
   Button,
 } from "@mui/material";
+import { useLocalForage } from "../../LocalForageContext";
 
 const OptionCheck = ({ car, options }) => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [directCart, setDirectCart] = useState([]);
+  const { getItem, setItem } = useLocalForage();
+
+  useEffect(() => {
+    getItem("CartList")
+      .then((items) => {
+        if (items) {
+          setCartItems(items);
+        }
+      })
+      .catch((error) => {
+        console.error("장바구니 항목 로드 중 오류 발생: ", error);
+      });
+  }, [getItem]);
+
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      setItem("CartList", cartItems).catch((error) =>
+        console.error("장바구니 저장 중 오류 발생: ", error)
+      );
+    }
+    if (directCart.length > 0) {
+      setItem("directOrderItem", directCart).catch((error) =>
+        console.error("즉시 주문 저장 중 오류 발생 ", error)
+      );
+      navigate(`/directorder/${car.carId}`);
+    }
+  }, [cartItems, setItem, directCart, car.carId, navigate]);
+
   const handleChange = (event) => {
     setValue(event.target.value + "");
   };
@@ -36,13 +65,19 @@ const OptionCheck = ({ car, options }) => {
 
   const handleCartClick = () => {
     const updatedCar = findOptionMatchAndUpdate();
-    setCartItems([...cartItems, updatedCar]); // 선택된 옵션을 장바구니에 추가
+    if (updatedCar) {
+      setCartItems((prevCartItems) => [...prevCartItems, updatedCar]);
+    }
   };
 
   const handleOrderClick = () => {
     const updatedCar = findOptionMatchAndUpdate();
-    setDirectCart([...directCart, updatedCar]);
-    navigate(`/directorder/${car.carId}`);
+    if (updatedCar) {
+      setDirectCart((prevdirectCartItem) => [
+        ...prevdirectCartItem,
+        updatedCar,
+      ]);
+    }
   };
 
   return (

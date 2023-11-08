@@ -2,25 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import CartCheck from "../../components/cart/CartCheck";
 import CartOne from "../../components/cart/CartOne";
-import { useParams } from "react-router-dom";
-import { getCarDetail } from "../../lib/api";
+import { useLocalForage } from "../../LocalForageContext";
 
 const DirectOrder = () => {
-  const { carId } = useParams();
   const [cart, setCart] = useState([{}]);
+  const { getItem } = useLocalForage();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCarDetail(carId);
-        if (response.status === 200) {
-          setCart([response.data.car]);
+    getItem("directOrderItem")
+      .then((items) => {
+        if (items) {
+          setCart(items);
         }
-      } catch (e) {
-        throw new Error("실패");
-      }
-    };
-    fetchData();
-  }, [carId]);
+      })
+      .catch((error) => {
+        console.error("장바구니 항목 로드 중 오류 발생: ", error);
+      });
+  }, [getItem]);
 
   return (
     <div

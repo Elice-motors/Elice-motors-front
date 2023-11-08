@@ -29,6 +29,9 @@ const CommonCarCard = ({
         )}
       </Grid>
       <Grid item xs={card ? 7 : 3}>
+        <Typography style={{ fontWeight: "bold" }}>
+          제품명: {car.carName}
+        </Typography>
         <Typography>옵션: {car.option}</Typography>
         <Typography>색상: {car.color}</Typography>
         <Typography style={{ fontWeight: "bold", display: "inline" }}>

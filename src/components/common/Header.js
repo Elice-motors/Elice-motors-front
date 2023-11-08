@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { deepOrange } from "@mui/material/colors";
 import { logout } from "../../lib/api";
+import { useLocalForage } from "../../LocalForageContext";
 
 const Header = () => {
   const [productAnchorEl, setProductAnchorEl] = useState(null);
@@ -18,6 +19,8 @@ const Header = () => {
   const productOpen = Boolean(productAnchorEl);
   const userInfoOpen = Boolean(userInfoAnchorEl);
   const navigate = useNavigate();
+  const { clear } = useLocalForage();
+
   const handleProductClick = (event) => {
     setProductAnchorEl(event.currentTarget);
   };
@@ -46,7 +49,7 @@ const Header = () => {
       if (response.status === 204) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("shortId");
-        navigate("/");
+        clear().then(() => navigate("/"));
       }
     } catch (e) {
       throw new Error("실패");
@@ -105,7 +108,7 @@ const Header = () => {
           </div>
           <Typography variant="subtitle1">
             <Link style={{ textDecoration: "none", color: "black" }} to="/cart">
-              장바구니(0)
+              장바구니
             </Link>
           </Typography>
           <Typography variant="subtitle1">

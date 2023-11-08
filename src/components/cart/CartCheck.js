@@ -5,13 +5,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 import { Typography, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { getUserInfo, createPayment } from "../../lib/api";
 
 const CartCheck = ({ cart }) => {
   const totalAmount = cart.reduce((total, car) => total + car.carPrice, 0);
-
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [isPostcodeOpen, setPostcodeOpen] = useState(false);
@@ -35,11 +35,11 @@ const CartCheck = ({ cart }) => {
           setUser(response.data.user);
         }
       } catch (e) {
-        throw new Error("실패");
+        navigate("/login");
       }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   // POST 요청을 보내는 함수
   // const handlePayment = () => {
