@@ -7,7 +7,7 @@ import Divider from "@mui/material/Divider";
 import { Typography, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { Link } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
-import { fetchUserInfo, createPayment } from "../../lib/api";
+import { getUserInfo, createPayment } from "../../lib/api";
 
 const CartCheck = ({ cart }) => {
   const totalAmount = cart.reduce((total, car) => total + car.carPrice, 0);
@@ -30,7 +30,7 @@ const CartCheck = ({ cart }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchUserInfo();
+        const response = await getUserInfo();
         if (response.status === 200) {
           setUser(response.data.user);
         }
@@ -71,7 +71,6 @@ const CartCheck = ({ cart }) => {
   //       });
   //   }
   // };
-
   return (
     <>
       <Card sx={{ padding: "20px" }}>
