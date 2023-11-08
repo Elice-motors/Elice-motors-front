@@ -17,10 +17,12 @@ import {
   deleteUserInfo,
   logout,
 } from "../../lib/api";
+import { useLocalForage } from "../../LocalForageContext";
 
 const Mypage = () => {
   const navigate = useNavigate();
-
+  const { clear } = useLocalForage();
+  const [isPostcodeOpen, setPostcodeOpen] = useState(false);
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -28,19 +30,7 @@ const Mypage = () => {
     phone: "",
     address: "",
   });
-  const shortId = localStorage.getItem("shortId");
-  const accessToken = localStorage.getItem("accessToken");
 
-  // 사용자 정보 가져오기
-  // useEffect(() => {
-  //   getUserInfo(shortId, accessToken)
-  //     .then((data) => {
-  //       setUser(data.user); // 여기서 data는 response.data와 동일
-  //     })
-  //     .catch((error) => {
-  //       console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
-  //     });
-  // }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,13 +46,12 @@ const Mypage = () => {
   }, []);
 
   const handlelogout = async () => {
-    // handleUserClose();
     try {
       const response = await logout();
       if (response.status === 204) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("shortId");
-        navigate("/");
+        clear().then(() => navigate("/"));
       }
     } catch (e) {
       throw new Error("실패");
@@ -83,19 +72,17 @@ const Mypage = () => {
   };
 
   // 사용자 계정 삭제
-  const handleDelete = () => {
-    deleteUserInfo(shortId, accessToken)
-      .then(() => {
-        // 삭제 성공 후의 로직
+  const handleDelete = async () => {
+    try {
+      const response = await deleteUserInfo();
+      if (response.status === 204) {
         alert("계정이 삭제되었습니다.");
         handlelogout();
-      })
-      .catch((error) => {
-        console.error("계정 삭제에 실패했습니다:", error);
-      });
+      }
+    } catch (error) {
+      console.error("계정 삭제에 실패: ", error);
+    }
   };
-
-  const daum = window.daum;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -105,33 +92,9 @@ const Mypage = () => {
     }));
   };
 
-  const [isPostcodeOpen, setPostcodeOpen] = useState(false);
-  const [postcode, setPostcode] = useState("");
-  const [address, setAddress] = useState("");
-  const [isUsingAccountAddress, setUsingAccountAddress] = useState(true);
-
   const handleComplete = (data) => {
-    setPostcode(data.zonecode);
-    setAddress(data.address);
     setPostcodeOpen(false);
     setUser({ ...user, address: data.address });
-  };
-
-  const handleOpenPostcode = () => {
-    new daum.Postcode({
-      oncomplete: function (data) {
-        const fullAddress = data.address;
-        setUser({ ...user, address: fullAddress });
-      },
-    }).open();
-  };
-
-  const useAccountAddress = () => {
-    const accountAddressValue = "Account Address Here";
-
-    setUsingAccountAddress(true);
-    setAddress(accountAddressValue);
-    setUser({ ...user, address: accountAddressValue });
   };
 
   return (
@@ -199,13 +162,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            value={
-              isUsingAccountAddress
-                ? user.address
-                  ? user.address
-                  : ""
-                : (postcode || "") + " " + (address || "")
-            }
+            value={user.address ? user.address : ""}
             onClick={() => setPostcodeOpen(true)}
           />
           <Dialog
