@@ -101,3 +101,22 @@ export const createPayment = (paymentData, accessToken) => {
     })
     .then((response) => response.data);
 };
+
+// 전체 상품 조회
+export const getAllProducts = () => {
+  return axios.get("/api/cars").then((response) => response);
+};
+
+// 상품 삭제
+export const deleteProduct = (carId) => {
+  return axios.get(`/api/cars/${carId}`).then((response) => response);
+};
+
+// 상품 등록
+export const addProduct = (productToformData) => {
+  return axios({
+    method: "post",
+    url: "/api/carup",
+    data: productToformData,
+  }).then((response) => response);
+};

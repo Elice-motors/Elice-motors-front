@@ -11,7 +11,8 @@ import Cart from "./pages/cart/Cart";
 import DirectOrder from "./pages/order/DirectOrder";
 import OrdersList from "./pages/order/OrdersList";
 import OrderSuccess from "./pages/order/OrderSuccess";
-import AdminItem from "./pages/admin/AdminItem";
+import Admin from "./pages/admin/Admin";
+import AdminItem from "./pages/admin/admin-item/AdminItem";
 import AdminOrderList from "./pages/admin/AdminOrderList";
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/directorder/:carId" element={<DirectOrder />} />
           <Route path="/orderslist" element={<OrdersList />} />
           <Route path="/ordersuccess" element={<OrderSuccess />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/admin-item" element={<AdminItem />} />
           <Route path="/admin-orderlist" element={<AdminOrderList />} />
         </Routes>
