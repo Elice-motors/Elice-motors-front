@@ -63,7 +63,7 @@ export const logout = () => {
 };
 
 export const getBannerProduct = () => {
-  return axios.get("/api/cars/2").then((response) => response);
+  return axios.get("/api/cars?register=latest").then((response) => response);
 };
 
 export const getCategorySedan = () => {
