@@ -42,6 +42,7 @@ const Login = () => {
         const shortId = response.data.user.shortId;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("shortId", shortId);
+        localStorage.setItem("userId", response.data.user.userId);
         navigate("/");
       }
     } catch (e) {
