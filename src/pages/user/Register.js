@@ -6,11 +6,8 @@ import {
   Grid,
   Paper,
   Typography,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { signup } from "../../lib/api";
 
 const CenteredLink = (props) => (
@@ -174,15 +171,6 @@ const Register = () => {
                   value={confirmPassword}
                   onChange={validateConfirmPassword}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h7" sx={{ fontWeight: "bold" }}>
-                  역할
-                </Typography>
-                <Select fullWidth value={role} onChange={handleRoleChange}>
-                  <MenuItem value="user">User</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
-                </Select>
               </Grid>
               <Grid item xs={12}>
                 <Button
