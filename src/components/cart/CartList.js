@@ -1,21 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography, Button } from "@mui/material";
 import CommonCarCard from "../common/CommonCarCard";
 
-const CartList = ({ cart, setCart }) => {
-  const addToCart = (car) => {
-    setCart([...cart, car]);
-  };
-
-  const removeFromCart = (carId) => {
-    const updatedCart = cart.filter((car) => car.id !== carId);
-    setCart(updatedCart);
-  };
-
-  const placeOrder = (car) => {
-    // Your order handling logic goes here.
-    console.log(`주문 요청: ${car.name}`);
-  };
+const CartList = ({ cart, removeFromCart }) => {
   return (
     <>
       <Typography
@@ -25,16 +12,16 @@ const CartList = ({ cart, setCart }) => {
         장바구니({cart.length})
       </Typography>
       <div style={{ overflowY: "scroll", height: "450px" }}>
-        {cart.map((car) => (
+        {cart.map((car, index) => (
           <CommonCarCard
-            key={car.id}
+            key={index}
             car={car}
             checkbox={true}
             actionComponent={
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => removeFromCart(car.id)}
+                onClick={() => removeFromCart(car.carId, car.option)}
                 style={{ width: "100%" }}
               >
                 삭제
