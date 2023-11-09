@@ -40,7 +40,7 @@ const Header = () => {
   };
   const handleAdminpage = () => {
     handleUserClose();
-    navigate("/admin-item");
+    navigate("/admin");
   };
   const handlelogout = async () => {
     handleUserClose();
