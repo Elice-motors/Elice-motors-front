@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  Divider,
-  Button,
-} from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 import OrderCompleteButton from "./OrderCompleteButton";
 import OrderCardContent from "./OrderCardContent";
 import OrderCancelButton from "./OrderCancelButton";
@@ -27,29 +20,29 @@ const OrderItem = ({ order, cancelOrder, isDelivered }) => {
   const isCompletedOrder = !isDelivered;
   return (
     <React.Fragment>
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item>
-          <Typography variant="h6" style={textStyle}>
-            주문번호: {order.orderNumber}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <div style={{ flex: 1 }}></div>
-          <OrderCompleteButton isDelivered={isDelivered} />
-        </Grid>
-      </Grid>
-
-      <OrderCardContent order={order} />
+      {order?.products?.map((product) => (
+        <OrderCardContent product={product} />
+      ))}
 
       {isCompletedOrder && (
-        <div style={centerAlign}>
-          <div style={{ flex: 1 }}></div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "10px",
+          }}
+        >
+          <Typography variant="h6" style={textStyle}>
+            총 결제금액: {order.totalAmount.toLocaleString()} 원
+          </Typography>
           <OrderCancelButton
             cancelOrder={cancelOrder}
             orderNumber={order.orderNumber}
           />
         </div>
       )}
+      <Divider sx={{ marginBottom: "20PX" }} />
     </React.Fragment>
   );
 };

@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Divider,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  Button,
-  ThemeProvider,
-} from "@mui/material";
-import { createTheme } from "@mui/material/styles";
+import { Chip, Typography } from "@mui/material";
 import OrderItem from "./OrderItem";
 
 const textStyle = {
@@ -16,44 +7,37 @@ const textStyle = {
   marginBottom: "10px",
 };
 
-const dividerStyle = {
-  marginBottom: "20px",
-};
-
-const OrderHistory = ({ orders, totalAmount, cancelOrder }) => {
-  const completedOrders = orders.filter(
-    (order) => order.status === "주문 완료"
-  );
-  const deliveredOrders = orders.filter(
-    (order) => order.status === "배송 완료"
-  );
-
+const OrderHistory = ({ orders, cancelOrder }) => {
   return (
     <div style={{ marginTop: "10px" }}>
       <Typography variant="h5" style={textStyle}>
         주문 내역
       </Typography>
-
-      {completedOrders.map((order, index) => (
-        <OrderItem
-          key={index}
-          order={order}
-          totalAmount={totalAmount}
-          cancelOrder={cancelOrder}
-          isDelivered={false}
-        />
-      ))}
-
-      <Divider style={dividerStyle} />
-
-      {deliveredOrders.map((order, index) => (
-        <OrderItem
-          key={index}
-          order={order}
-          totalAmount={totalAmount}
-          cancelOrder={cancelOrder}
-          isDelivered={true}
-        />
+      {orders?.map((order, index) => (
+        <React.Fragment key={index}>
+          <Typography variant="h6" style={textStyle}>
+            주문번호: {order.orderNumber}
+          </Typography>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="h6" style={textStyle}>
+              배송지: {order.address}
+            </Typography>
+            <Chip
+              label={order.status}
+              sx={{
+                bgcolor: "primary.main",
+                fontWeight: "bold",
+                color: "white",
+              }}
+            />
+          </div>
+          <OrderItem
+            key={index}
+            order={order}
+            cancelOrder={cancelOrder}
+            isDelivered={false}
+          />
+        </React.Fragment>
       ))}
     </div>
   );

@@ -98,16 +98,29 @@ export const fetchUserInfo = () => {
     .then((response) => response);
 };
 
-// export const createPayment = (paymentData, accessToken) => {
-//   const accessToken = localStorage.getItem("accessToken");
-//   return axios
-//     .post("/api/payment", paymentData, {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`,
-//       },
-//     })
-//     .then((response) => response.data);
-// };
+export const createPayment = (paymentData) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem("userId");
+  return axios
+    .post(`/api/payment/${userId}`, paymentData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response);
+};
+
+export const getUserOrders = () => {
+  const accessToken = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem("userId");
+  return axios
+    .get(`/api/orders/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response);
+};
 
 // 전체 상품 조회
 export const getAllProducts = () => {
