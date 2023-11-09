@@ -42,7 +42,7 @@ const MainProductBanner = () => {
             {newItem.carName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <Link style={{ textDecoration: "none" }} to="/2">
+            <Link style={{ textDecoration: "none" }} to={`/${newItem.carId}`}>
               <Button sx={{ color: "black" }}>자세히 보러가기 ▶</Button>
             </Link>
           </Typography>
