@@ -120,10 +120,75 @@ export const deleteProduct = (carId) => {
 };
 
 // 상품 등록
+// export const addProduct = (productToformData) => {
+//   return axios
+//     .post(`/api/carup`, productToformData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
+//       },
+//     })
+//     .then((response) => response);
+// };
+
 export const addProduct = (productToformData) => {
-  return axios({
-    method: "post",
-    url: "/api/carup",
-    data: productToformData,
-  }).then((response) => response);
+  return axios
+    .post("/api/carup", productToformData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`, // 실제 토큰으로 대체하세요
+      },
+    })
+    .then((response) => {
+      console.log("Response:", response); // 이제 응답을 콘솔에 출력할 것입니다.
+      return response;
+    })
+    .catch((error) => {
+      console.error("Error:", error); // 여기서 오류를 콘솔에 출력할 것입니다.
+      throw error; // 오류를 다시 throw하여 호출자에게 전달할 수 있습니다.
+    });
+};
+
+// 전체 주문 조회
+export const getAllOrders = () => {
+  return axios
+    .get("/api/orders", {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
+      },
+    })
+    .then((response) => response);
+};
+
+// 주문 삭제
+export const deleteOrder = (userId) => {
+  return axios
+    .delete(`/api/orders/delete/${userId}`, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`, // 실제 토큰으로 대체하세요
+      },
+    })
+    .then((response) => response);
+};
+
+// 모든 사용자 조회
+export const getAllUsers = () => {
+  return axios
+    .get("/api/users", {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
+      },
+    })
+    .then((response) => response);
+};
+
+// 관리자 사용자 삭제
+export const deleteUser = (shortId) => {
+  return axios
+    .delete(`/api/users/${shortId}`, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0MzQzMTQ3MzFkZTI1MjJkN2Y3MWQ2IiwiaWF0IjoxNjk4OTA5OTUxfQ.Dx2a4BT7osfL4ePFERS_eE6Y7BeTecEFWacMRoq2Vjs`,
+      },
+    })
+    .then((response) => response);
 };
