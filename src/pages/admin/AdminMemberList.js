@@ -31,8 +31,10 @@ const AdminUserList = () => {
     try {
       const response = await deleteUser(shortId);
       console.log("사용자 삭제 response", response);
-      alert("사용자 삭제 성공");
-      window.location.reload();
+      if (response.status === 204) {
+        const updatedUsers = users.filter((user) => user.shortId !== shortId);
+        setUsers(updatedUsers);
+      }
     } catch (error) {
       console.log("사용자 삭제 실패");
     }
