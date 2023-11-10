@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Chip, Container, Typography } from "@mui/material";
-import { deleteUserOrder, getUserOrders } from "../../lib/api";
+import { deleteOrder, getUserOrders } from "../../lib/api";
 import OrderItem from "../../components/order/order-detail/OrderItem";
 
 const textStyle = {
@@ -26,7 +26,7 @@ const OrdersList = () => {
   }, []);
   const cancelOrder = async (orderNumber) => {
     try {
-      const response = await deleteUserOrder(orderNumber);
+      const response = await deleteOrder(orderNumber);
       if (response.status === 200) {
         setOrders((prev) =>
           prev.filter((item) => item.orderNumber !== orderNumber)

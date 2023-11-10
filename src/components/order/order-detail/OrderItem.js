@@ -15,7 +15,6 @@ const centerAlign = {
 };
 
 const OrderItem = ({ order, cancelOrder, isDelivered }) => {
-  const isCompletedOrder = !isDelivered;
   return (
     <React.Fragment>
       {order?.products?.map((product) => (
