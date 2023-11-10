@@ -9,7 +9,7 @@ import {
   Stack,
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import { deleteUserInfo, getAllUsers } from "../../lib/api";
+import { deleteUser, getAllUsers } from "../../lib/api";
 
 const AdminUserList = () => {
   const [users, setUsers] = useState([]);
@@ -27,11 +27,12 @@ const AdminUserList = () => {
     fetchAllUsers(); // 함수 호출
   }, []);
 
-  const deleteUser = async (userId) => {
-    console.log("사용자 삭제에서 userId", userId);
+  const handleDeleteUser = async (shortId) => {
     try {
-      const response = await deleteUserInfo(userId);
+      const response = await deleteUser(shortId);
       console.log("사용자 삭제 response", response);
+      alert("사용자 삭제 성공");
+      window.location.reload();
     } catch (error) {
       console.log("사용자 삭제 실패");
     }
@@ -72,7 +73,7 @@ const AdminUserList = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={() => deleteUser(user._id)}
+              onClick={() => handleDeleteUser(user.shortId)}
             >
               삭제
             </Button>

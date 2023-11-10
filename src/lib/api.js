@@ -199,10 +199,13 @@ export const getAllUsers = () => {
 
 // 관리자 사용자 삭제
 export const deleteUser = (shortId) => {
+  const accessToken = localStorage.getItem("accessToken");
+  console.log("shortId", shortId);
+  console.log("accessToken", accessToken);
   return axios
     .delete(`/api/users/${shortId}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0MzQzMTQ3MzFkZTI1MjJkN2Y3MWQ2IiwiaWF0IjoxNjk4OTA5OTUxfQ.Dx2a4BT7osfL4ePFERS_eE6Y7BeTecEFWacMRoq2Vjs`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
     .then((response) => response);
