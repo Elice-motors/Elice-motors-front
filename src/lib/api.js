@@ -161,11 +161,14 @@ export const getAllOrders = () => {
 };
 
 // 주문 삭제
-export const deleteOrder = (userId) => {
+export const deleteOrder = (orderNumber) => {
+  console.log("주문번호", orderNumber);
+  const userId = localStorage.getItem("userId");
+  console.log("유저 아이디", userId);
   return axios
-    .delete(`/api/orders/delete/${userId}`, {
+    .delete(`/api/orders/delete/${userId}?orderNumber=${orderNumber}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`, // 실제 토큰으로 대체하세요
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
       },
     })
     .then((response) => response);

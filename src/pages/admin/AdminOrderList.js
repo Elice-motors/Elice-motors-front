@@ -24,6 +24,7 @@ const AdminOrderList = () => {
     const fetchOrders = async () => {
       try {
         const response = await getAllOrders();
+        console.log("주문 response", response);
         setOrders(response.data.allOrders); // 상태 업데이트
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -46,12 +47,18 @@ const AdminOrderList = () => {
 
   console.log("userId", userId);
 
-  const handleOrderDelete = async () => {
+  const handleOrderDelete = async (orderNumber) => {
+    console.log("Order Number:", orderNumber);
     try {
-      const response = await deleteOrder(userId);
-      console.log("주문 삭제 response", response);
+      const response = await deleteOrder(orderNumber);
+      if (response.status === 200) {
+        orders = orders.filter((order) => order.orderNumber !== orderNumber);
+        console.log(`Order ${orderNumber} deleted successfully.`);
+      } else {
+        console.log("Failed to delete order:", response.status);
+      }
     } catch (error) {
-      console.log("주문 삭제 실패");
+      console.error("Order deletion failed", error);
     }
   };
 
@@ -116,7 +123,7 @@ const AdminOrderList = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleOrderDelete}
+                onClick={() => handleOrderDelete(order.orderNumber)}
               >
                 주문 삭제
               </Button>
@@ -168,7 +175,7 @@ const AdminOrderList = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleOrderDelete}
+                onClick={() => handleOrderDelete(order.orderNumber)}
               >
                 주문 삭제
               </Button>

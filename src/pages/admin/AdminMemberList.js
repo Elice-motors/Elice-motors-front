@@ -28,6 +28,7 @@ const AdminUserList = () => {
   }, []);
 
   const deleteUser = async (userId) => {
+    console.log("사용자 삭제에서 userId", userId);
     try {
       const response = await deleteUserInfo(userId);
       console.log("사용자 삭제 response", response);
