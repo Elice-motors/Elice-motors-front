@@ -26,6 +26,8 @@ const AdminItemAddModal = ({ open, handleClose }) => {
     color: "",
   });
 
+  const [uploadedImageName, setUploadedImageName] = useState("");
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     const parsedValue =
@@ -44,7 +46,7 @@ const AdminItemAddModal = ({ open, handleClose }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // 이미지 파일의 참조를 상태에 저장
+      setUploadedImageName(file.name); // Update the state with the file name
       setProduct((prevProduct) => ({
         ...prevProduct,
         img: file.name,
@@ -114,6 +116,11 @@ const AdminItemAddModal = ({ open, handleClose }) => {
               이미지 업로드
               <input type="file" hidden onChange={handleFileChange} />
             </Button>
+            {uploadedImageName && (
+              <Typography variant="body1" sx={{ marginLeft: 2 }}>
+                {uploadedImageName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={6}>
             <TextField

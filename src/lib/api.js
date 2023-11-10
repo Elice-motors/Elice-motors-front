@@ -210,3 +210,18 @@ export const deleteUser = (shortId) => {
     })
     .then((response) => response);
 };
+
+// 관리자 주문 상태 변경
+export const orderStatusChange = (orderNumber, newStatusData) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem("userId");
+  console.log("userId", userId);
+  console.log("api에서 newStatusData", newStatusData);
+  return axios
+    .put(`/api/orders/${userId}?orderNumber=${orderNumber}`, newStatusData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response);
+};

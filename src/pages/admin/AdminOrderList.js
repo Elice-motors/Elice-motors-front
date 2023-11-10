@@ -13,6 +13,7 @@ import {
   fetchUserInfo,
   getAllOrders,
   getUserInfo,
+  orderStatusChange,
 } from "../../lib/api";
 
 const AdminOrderList = () => {
@@ -67,6 +68,33 @@ const AdminOrderList = () => {
 
   console.log("주문의 상품", orders);
 
+  // const handleStatusChange = (orderNumber) => (event) => {
+  //   console.log("주문 번호", orderNumber);
+  //   const newStatus = event.target.value;
+  //   console.log("주문 상태", newStatus);
+  // };
+
+  const handleStatusChange = async (event, orderNumber) => {
+    const newStatus = event.target.value;
+    console.log("주문 상태", newStatus);
+    console.log("주문번호", orderNumber);
+    const newStatusData = {
+      status: newStatus,
+    };
+    console.log("주문 상태 데이터", newStatusData);
+
+    try {
+      const response = await orderStatusChange(orderNumber, newStatusData);
+      console.log("주문 상태 변경 response", response);
+      if (response.status === 200) {
+        alert("주문 상태 변경 성공");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("주문 상태 변경 실패");
+    }
+  };
+
   return (
     <Box>
       <Typography variant="h6" sx={{ mb: 2 }}>
@@ -84,12 +112,16 @@ const AdminOrderList = () => {
             <Typography variant="body1">
               <b>주문 번호: {order._id}</b>
             </Typography>
-            <Select value={order.status}>
+            <Select
+              value={order.status}
+              onChange={(event) => handleStatusChange(event, order.orderNumber)}
+            >
               <MenuItem value="주문 완료">주문 완료</MenuItem>
               <MenuItem value="주문 취소">주문 취소</MenuItem>
               <MenuItem value="배송중">배송중</MenuItem>
               <MenuItem value="배송 완료">배송 완료</MenuItem>
             </Select>
+
             <Card
               key={order._id}
               sx={{
