@@ -1,8 +1,6 @@
 import React from "react";
-import { Divider, Grid, Typography } from "@mui/material";
-import OrderCompleteButton from "./OrderCompleteButton";
+import { Button, Chip, Divider, Typography } from "@mui/material";
 import OrderCardContent from "./OrderCardContent";
-import OrderCancelButton from "./OrderCancelButton";
 
 const textStyle = {
   fontWeight: "bold",
@@ -24,24 +22,38 @@ const OrderItem = ({ order, cancelOrder, isDelivered }) => {
         <OrderCardContent product={product} />
       ))}
 
-      {isCompletedOrder && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "10px",
-          }}
-        >
-          <Typography variant="h6" style={textStyle}>
-            총 결제금액: {order.totalAmount.toLocaleString()} 원
-          </Typography>
-          <OrderCancelButton
-            cancelOrder={cancelOrder}
-            orderNumber={order.orderNumber}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px",
+        }}
+      >
+        <Typography variant="h6" style={textStyle}>
+          총 결제금액: {order.totalAmount.toLocaleString()} 원
+        </Typography>
+        {order.status === "주문 완료" || order.status === "주문 취소" ? (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => cancelOrder(order.orderNumber)}
+            style={{ whiteSpace: "nowrap" }}
+          >
+            주문 취소
+          </Button>
+        ) : (
+          <Chip
+            label="주문 취소 불가"
+            sx={{
+              bgcolor: "red",
+              fontWeight: "bold",
+              color: "white",
+            }}
           />
-        </div>
-      )}
+        )}
+      </div>
+
       <Divider sx={{ marginBottom: "20PX" }} />
     </React.Fragment>
   );
