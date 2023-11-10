@@ -5,7 +5,7 @@ import CartCheck from "../../components/cart/CartCheck";
 import { useLocalForage } from "../../LocalForageContext";
 
 const Cart = () => {
-  const { getItem } = useLocalForage();
+  const { getItem, setItem } = useLocalForage();
 
   useEffect(() => {
     getItem("CartList").then((items) => {
@@ -16,6 +16,13 @@ const Cart = () => {
   }, [getItem]);
 
   const [cart, setCart] = useState([]);
+  const removeFromCart = (carId, carOption) => {
+    const updatedCart = cart.filter(
+      (car) => car.carId !== carId || car.option !== carOption
+    );
+    setCart(updatedCart);
+    setItem("CartList", updatedCart);
+  };
 
   return (
     <div
@@ -28,7 +35,7 @@ const Cart = () => {
     >
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <CartList cart={cart} setCart={setCart} />
+          <CartList cart={cart} removeFromCart={removeFromCart} />
         </Grid>
 
         <Grid item xs={6}>

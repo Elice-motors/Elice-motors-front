@@ -1,20 +1,10 @@
 import React from "react";
-import { Grid, Typography, CardContent, Card, Checkbox } from "@mui/material";
+import { Grid, Typography, CardContent, Card } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const CommonCarCard = ({
-  car,
-  actionComponent,
-  card = false,
-  checkbox = false,
-}) => {
+const CommonCarCard = ({ car, actionComponent, card = false }) => {
   const content = (
     <>
-      {checkbox && (
-        <Grid item xs={1}>
-          <Checkbox defaultChecked />
-        </Grid>
-      )}
       <Grid item xs={card ? 7 : 3}>
         <Link to={`/${car.carId}`}>
           <img src={car.img} alt={car.carName} style={{ width: "100%" }} />

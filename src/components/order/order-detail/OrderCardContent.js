@@ -9,24 +9,24 @@ const cardStyle = {
   background: "#f5f5f5",
 };
 
-const OrderCardContent = ({ order }) => {
+const OrderCardContent = ({ product }) => {
   return (
     <Card style={cardStyle}>
       <CardContent>
         <Grid container spacing={2} justifyContent="space-between">
           <Grid item xs={3}>
             <img
-              src={order.carImage}
-              alt={order.carName}
+              src={product.productInfo.img}
+              alt={product.productInfo.carName}
               style={{ width: "100%" }}
             />
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" style={{ fontWeight: "bold" }}>
-              {order.carName}
+              {product.carName}
             </Typography>
-            <Typography>옵션: {order.option}</Typography>
-            <Typography>색상: {order.color}</Typography>
+            <Typography>옵션: {product.productInfo.option}</Typography>
+            <Typography>색상: {product.productInfo.color}</Typography>
           </Grid>
           <Grid
             item
@@ -40,7 +40,9 @@ const OrderCardContent = ({ order }) => {
             <Typography variant="h7" style={{ fontWeight: "bold" }}>
               결제 금액
             </Typography>
-            <Typography variant="h7">{order.price} 원</Typography>
+            <Typography variant="h7" style={{ fontWeight: "bold" }}>
+              {product.productInfo.carPrice.toLocaleString()}원
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>

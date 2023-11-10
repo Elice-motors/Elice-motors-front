@@ -1,13 +1,15 @@
 import React from "react";
 import { Button, Container, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const OrderSuccess = () => {
+  const location = useLocation();
+  const { orderNumber } = location.state.value;
   return (
     <div style={{ display: "flex", alignItems: "center", height: "100vh" }}>
       <Container maxWidth="sm" style={{ textAlign: "center" }}>
         <Box sx={{ my: 2 }}>
-          <Typography variant="body1">주문번호: 123456789</Typography>
+          <Typography variant="body1">주문번호: {orderNumber}</Typography>
         </Box>
         <Typography variant="h4" gutterBottom>
           <strong>주문이 완료되었습니다.</strong>

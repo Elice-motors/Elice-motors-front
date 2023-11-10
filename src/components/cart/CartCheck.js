@@ -41,36 +41,29 @@ const CartCheck = ({ cart }) => {
     fetchData();
   }, [navigate]);
 
-  // POST 요청을 보내는 함수
-  // const handlePayment = () => {
-  //   // API 요청에 필요한 데이터를 구성
-  //   const paymentData = {
-  //     products: cart.map((item) => ({
-  //       productInfo: {
-  //         name: item.name,
-  //         color: item.color,
-  //         option: item.option,
-  //         price: item.price,
-  //       },
-  //       quantity: item.quantity,
-  //     })),
-  //     amountInfo: totalAmount,
-  //     userId: userId,
-  //     address: address,
-  //     status: "주문 완료",
-  //   };
-
-  //   if (accessToken) {
-  //     createPayment(paymentData, accessToken)
-  //       .then((data) => {
-  //         console.log("결제 성공", data);
-  //         // 여기에 성공 시 로직을 추가하세요. 예: 페이지 리다이렉트 등
-  //       })
-  //       .catch((error) => {
-  //         console.error("Payment API Error:", error);
-  //       });
-  //   }
-  // };
+  const handlePayment = async () => {
+    const userId = localStorage.getItem("userId");
+    const paymentData = {
+      products: cart.map((item) => ({
+        carId: item._id,
+        carName: item.carName,
+        img: item.img,
+        carPrice: item.carPrice,
+        option: item.option,
+        color: item.color,
+      })),
+      address: address,
+      userId: userId,
+    };
+    try {
+      const response = await createPayment(paymentData);
+      if (response.status === 200) {
+        navigate("/ordersuccess", { state: { value: response.data } });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Card sx={{ padding: "20px" }}>
@@ -82,7 +75,7 @@ const CartCheck = ({ cart }) => {
             variant="h4"
             style={{ fontWeight: "bold", margin: "10px" }}
           >
-            {totalAmount}
+            {totalAmount.toLocaleString()}원
           </Typography>
           <Divider variant="middle" />
           <div
@@ -131,7 +124,7 @@ const CartCheck = ({ cart }) => {
             variant="contained"
             color="primary"
             style={{ width: "100%" }}
-            //onClick={handlePayment} // 결제 함수 연결
+            onClick={handlePayment}
           >
             결제하기
           </Button>
