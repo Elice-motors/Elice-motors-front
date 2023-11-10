@@ -20,6 +20,7 @@ const AdminOrderList = () => {
   const [orders, setOrders] = useState([]);
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
+
   useEffect(() => {
     // API 호출을 정의한 함수
     const fetchOrders = async () => {
@@ -88,8 +89,14 @@ const AdminOrderList = () => {
       const response = await orderStatusChange(orderNumber, newStatusData);
       console.log("주문 상태 변경 response", response);
       if (response.status === 200) {
-        alert("주문 상태 변경 성공");
-        window.location.reload();
+        const updatedOrders = orders.map((order) => {
+          if (order.orderNumber === orderNumber) {
+            return { ...order, status: newStatus }; // 주문 상태 업데이트
+          }
+          return order;
+        });
+
+        setOrders(updatedOrders);
       }
     } catch (error) {
       console.log("주문 상태 변경 실패");
@@ -111,7 +118,7 @@ const AdminOrderList = () => {
         .map((order) => (
           <>
             <Typography variant="body1">
-              <b>주문 번호: {order._id}</b>
+              <b>주문 번호: {order.orderNumber}</b>
             </Typography>
             <Select
               value={order.status}
