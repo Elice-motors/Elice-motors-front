@@ -23,7 +23,7 @@ const OrderCardContent = ({ product }) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" style={{ fontWeight: "bold" }}>
-              {product.carName}
+              {product.productInfo.carName}
             </Typography>
             <Typography>옵션: {product.productInfo.option}</Typography>
             <Typography>색상: {product.productInfo.color}</Typography>
