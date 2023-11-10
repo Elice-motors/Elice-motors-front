@@ -16,11 +16,11 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
   const [product, setProduct] = useState({
     carId: Date.now(),
     carName: "",
-    carPrice: 0, // Initialize carPrice as 0
+    carPrice: null, // Initialize carPrice as 0
     img: "",
-    speed: 0, // Initialize speed as 0
-    mileage: 0, // Initialize mileage as 0
-    fuel: 0, // Initialize fuel as 0
+    speed: null, // Initialize speed as 0
+    mileage: null, // Initialize mileage as 0
+    fuel: null, // Initialize fuel as 0
     category: "",
     option: "",
     color: "",
@@ -56,6 +56,7 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
   };
 
   const uploadFile = async (fileData) => {
+    console.log("파일 데이터", fileData);
     try {
       const response = await fileUpload(fileData);
       console.log("파일 업로드 response", response);

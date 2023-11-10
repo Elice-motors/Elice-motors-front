@@ -49,9 +49,10 @@ const AdminItem = () => {
     <>
       <Stack
         direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        spacing={2} // 카드 사이의 간격
+        sx={{ flexWrap: "wrap" }} // 줄 바꿈 허용
       >
         <Typography variant="h5">관리자 상품 관리 페이지</Typography>
         <Button
@@ -91,6 +92,7 @@ const AdminItem = () => {
             overflow: "hidden", // 내용이 넘칠 경우 숨김
             mb: 2, // 아래쪽 마진 설정
             position: "relative", // 상대적 위치 설정
+            width: "calc(33.333% - 16px)", // 한 줄에 세 개씩 배치
           }}
         >
           <img

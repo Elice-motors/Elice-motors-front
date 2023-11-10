@@ -4,9 +4,9 @@ import {
   Typography,
   Button,
   Card,
-  CardContent,
   Avatar,
   Stack,
+  Chip,
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { deleteUser, getAllUsers } from "../../lib/api";
@@ -63,13 +63,15 @@ const AdminUserList = () => {
                 <Typography variant="subtitle1">
                   {user.userName}{" "}
                   {user.role === "ADMIN" && (
-                    <span style={{ color: "blue" }}>(관리자)</span>
+                    <Chip label="관리자" size="small" color="primary" />
                   )}
                 </Typography>
-                <Typography variant="body2">{user.email}</Typography>
-                <Typography variant="body2">전화번호: {user.phone}</Typography>
-                <Typography variant="body2">나이: {user.age}</Typography>
-                <Typography variant="body2">{user.address}</Typography>
+                <Typography variant="body2" component="span">
+                  {user.email} · 전화번호: {user.phone}
+                </Typography>
+                <Typography variant="body2">
+                  나이: {user.age} · 주소지: {user.address}
+                </Typography>
               </Box>
             </Box>
             <Button

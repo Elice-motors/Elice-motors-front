@@ -105,30 +105,43 @@ const AdminOrderList = () => {
 
   return (
     <Box>
-      <Typography variant="h6" sx={{ mb: 2 }}>
+      <Typography variant="h6" sx={{ mb: 2 }} fontWeight="bold">
         전체 주문 ({orders.length})
       </Typography>
 
       {/* 주문 완료 섹션 */}
-      <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+      <Typography variant="h6" sx={{ mt: 4, mb: 2 }} fontWeight="bold">
         주문 완료
       </Typography>
       {orders
         .filter((order) => order.status === "주문 완료")
         .map((order) => (
           <>
-            <Typography variant="body1">
-              <b>주문 번호: {order.orderNumber}</b>
-            </Typography>
-            <Select
-              value={order.status}
-              onChange={(event) => handleStatusChange(event, order.orderNumber)}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
             >
-              <MenuItem value="주문 완료">주문 완료</MenuItem>
-              <MenuItem value="주문 취소">주문 취소</MenuItem>
-              <MenuItem value="배송중">배송중</MenuItem>
-              <MenuItem value="배송 완료">배송 완료</MenuItem>
-            </Select>
+              <Typography variant="body1" fontWeight="bold">
+                주문 번호: {order.orderNumber}
+              </Typography>
+              <Select
+                value={order.status}
+                onChange={(event) =>
+                  handleStatusChange(event, order.orderNumber)
+                }
+                size="small"
+                sx={{ ml: 2 }}
+              >
+                <MenuItem value="주문 완료">주문 완료</MenuItem>
+                <MenuItem value="주문 취소">주문 취소</MenuItem>
+                <MenuItem value="배송중">배송중</MenuItem>
+                <MenuItem value="배송 완료">배송 완료</MenuItem>
+              </Select>
+            </Box>
 
             <Card
               key={order._id}
@@ -157,10 +170,10 @@ const AdminOrderList = () => {
             <Box
               sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}
             >
-              <Typography variant="body1">
+              <Typography variant="body1" fontWeight="bold">
                 이름 (배송지): {userName} ({order.address})
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" fontWeight="bold">
                 총 결제 금액: {order.totalAmount.toLocaleString()}원
               </Typography>
               <Button
@@ -177,7 +190,7 @@ const AdminOrderList = () => {
         ))}
 
       {/* 배송 완료 섹션 */}
-      <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+      <Typography variant="h6" sx={{ mt: 4, mb: 2 }} fontWeight="bold">
         배송 완료
       </Typography>
       {orders
@@ -211,10 +224,10 @@ const AdminOrderList = () => {
             <Box
               sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}
             >
-              <Typography variant="body1">
+              <Typography variant="body1" fontWeight="bold">
                 이름 (배송지): {userName} ({order.address})
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" fontWeight="bold">
                 총 결제 금액: {order.totalAmount.toLocaleString()}원
               </Typography>
               <Button
