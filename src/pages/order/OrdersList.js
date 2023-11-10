@@ -43,6 +43,7 @@ const OrdersList = () => {
       style={{
         display: "flex",
         alignItems: "center",
+        padding: "20px",
       }}
     >
       <Container maxWidth="sm" sx={{ marginTop: "80px" }}>
