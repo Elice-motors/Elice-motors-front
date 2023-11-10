@@ -5,7 +5,7 @@ import OrderItem from "../../components/order/order-detail/OrderItem";
 
 const textStyle = {
   fontWeight: "bold",
-  marginBottom: "10px",
+  marginBottom: "20px",
 };
 
 const OrdersList = () => {
@@ -24,7 +24,6 @@ const OrdersList = () => {
     };
     fetchData();
   }, []);
-
   const cancelOrder = async (orderNumber) => {
     try {
       const response = await deleteUserOrder(orderNumber);
@@ -32,29 +31,35 @@ const OrdersList = () => {
         setOrders((prev) =>
           prev.filter((item) => item.orderNumber !== orderNumber)
         );
-        alert("주문삭제 완료");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div
       style={{
         display: "flex",
+        minHeight: "100vh",
         alignItems: "center",
-        padding: "20px",
       }}
     >
       <Container maxWidth="sm" sx={{ marginTop: "80px" }}>
         <Typography variant="h5" style={textStyle}>
-          주문 내역
+          나의 주문 내역
         </Typography>
         {orders?.map((order, index) => (
           <React.Fragment key={index}>
-            <Typography variant="h6" style={textStyle}>
-              주문번호: {order.orderNumber}
-            </Typography>
+            <Chip
+              style={{
+                pading: "10px 20px",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                fontSize: "15px",
+              }}
+              label={`주문번호 : ${order.orderNumber}`}
+            />
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Typography variant="h6" style={textStyle}>
                 배송지: {order.address}
@@ -68,12 +73,7 @@ const OrdersList = () => {
                 }}
               />
             </div>
-            <OrderItem
-              key={index}
-              order={order}
-              isDelivered={false}
-              cancelOrder={cancelOrder}
-            />
+            <OrderItem key={index} order={order} cancelOrder={cancelOrder} />
           </React.Fragment>
         ))}
       </Container>
