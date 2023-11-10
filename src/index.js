@@ -4,7 +4,6 @@ import App from "./App";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { LocalForageProvider } from "./LocalForageContext";
 
-// 테마 생성
 const theme = createTheme({
   palette: {
     primary: {
@@ -14,7 +13,6 @@ const theme = createTheme({
       main: "#8797d3",
     },
   },
-  // 추가적인 테마 설정...
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
