@@ -22,7 +22,7 @@ const DetailInfo = ({ car }) => {
                 variant="h6"
                 style={{ fontWeight: "bold", display: "inline" }}
               >
-                {`결제 금액: ${car.carPrice}`}
+                {`결제 금액: ${car?.carPrice?.toLocaleString()}원`}
               </Typography>
             </Container>
           </Grid>

@@ -19,15 +19,6 @@ const OrdersList = () => {
   }, []);
 
   const [orders, setOrders] = useState([]);
-  const cancelOrder = (orderNumber) => {
-    const updatedOrders = orders.filter(
-      (order) => order.orderNumber !== orderNumber
-    );
-
-    setOrders(updatedOrders);
-
-    alert(`주문 번호 ${orderNumber}가 취소되었습니다.`);
-  };
   return (
     <div
       style={{
@@ -36,7 +27,7 @@ const OrdersList = () => {
       }}
     >
       <Container maxWidth="sm" sx={{ marginTop: "80px" }}>
-        <OrderHistory orders={orders} cancelOrder={cancelOrder} />
+        <OrderHistory orders={orders} />
       </Container>
     </div>
   );
