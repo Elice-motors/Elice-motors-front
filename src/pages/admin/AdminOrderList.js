@@ -53,14 +53,15 @@ const AdminOrderList = () => {
     try {
       const response = await deleteOrder(userId, orderNumber);
       console.log("주문 삭제 response", response);
-      if (response.data.status === 200) {
-        orders = orders.filter((order) => order.orderNumber !== orderNumber);
-        console.log(`Order ${orderNumber} deleted successfully.`);
+      if (response.status === 200) {
+        // Update products state after successful deletion
+        const updatedOrders = orders.filter(
+          (order) => order.orderNumber !== orderNumber
+        );
+        setOrders(updatedOrders);
       } else {
         console.log("Failed to delete order:", response.status);
       }
-      alert("주문이 삭제되었습니다");
-      window.location.reload();
     } catch (error) {
       console.error("Order deletion failed", error);
     }

@@ -173,10 +173,11 @@ export const addProduct = (productData) => {
 
 // 전체 주문 조회
 export const getAllOrders = () => {
+  const accessToken = localStorage.getItem("accessToken");
   return axios
     .get("/api/orders", {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
     .then((response) => response);
@@ -186,10 +187,11 @@ export const getAllOrders = () => {
 export const deleteOrder = (userId, orderNumber) => {
   console.log("주문번호", orderNumber);
   console.log("유저 아이디", userId);
+  const accessToken = localStorage.getItem("accessToken");
   return axios
     .delete(`/api/orders/delete/${userId}?orderNumber=${orderNumber}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
     .then((response) => response);
@@ -197,10 +199,11 @@ export const deleteOrder = (userId, orderNumber) => {
 
 // 모든 사용자 조회
 export const getAllUsers = () => {
+  const accessToken = localStorage.getItem("accessToken");
   return axios
     .get("/api/users", {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
     .then((response) => response);
