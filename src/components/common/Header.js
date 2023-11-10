@@ -136,7 +136,9 @@ const Header = () => {
                 onClose={handleUserClose}
               >
                 <MenuItem onClick={handleMypage}>계정정보</MenuItem>
-                <MenuItem onClick={handleAdminpage}>관리자 페이지</MenuItem>
+                {localStorage.getItem("role") === "ADMIN" ? (
+                  <MenuItem onClick={handleAdminpage}>관리자 페이지</MenuItem>
+                ) : null}
                 <MenuItem onClick={handlelogout}>로그아웃</MenuItem>
               </Menu>
             </div>
