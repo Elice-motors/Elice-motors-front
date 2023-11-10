@@ -7,7 +7,7 @@ const Footer = () => {
       style={{
         position: "relative",
         minHight: "100vh",
-        paddingBottom: "60px",
+        paddingBottom: "80px",
       }}
     >
       <AppBar

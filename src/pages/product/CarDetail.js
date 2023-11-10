@@ -14,7 +14,10 @@ const CarDetail = () => {
       const carResponse = await getCarDetail(carId);
       const optionResponse = await getOptions();
       if (carResponse.status === 200) {
-        setCarItem(carResponse.data.car);
+        setCarItem({
+          ...carResponse.data.car,
+          basePrice: carResponse.data.car.carPrice,
+        });
       }
       if (optionResponse.status === 200) {
         setOptions(optionResponse.data.options);
@@ -22,6 +25,9 @@ const CarDetail = () => {
     };
     fetchData();
   }, [carId]);
+  const handleOptionChange = (updatedCarItem) => {
+    setCarItem(updatedCarItem);
+  };
   return (
     <>
       <div
@@ -38,7 +44,11 @@ const CarDetail = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <OptionCheck car={carItem} options={options} />
+            <OptionCheck
+              car={carItem}
+              options={options}
+              onOptionChange={handleOptionChange}
+            />
           </Grid>
         </Grid>
       </div>

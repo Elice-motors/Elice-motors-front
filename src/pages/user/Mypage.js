@@ -100,7 +100,7 @@ const Mypage = () => {
     <div
       style={{
         display: "flex",
-        marginTop: "80px",
+        marginTop: "70px",
         alignItems: "center",
         height: "100vh",
       }}

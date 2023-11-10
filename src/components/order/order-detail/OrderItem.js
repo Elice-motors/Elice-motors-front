@@ -1,7 +1,6 @@
 import React from "react";
-import { Divider, Typography } from "@mui/material";
+import { Button, Chip, Divider, Typography } from "@mui/material";
 import OrderCardContent from "./OrderCardContent";
-import OrderCancelButton from "./OrderCancelButton";
 
 const textStyle = {
   fontWeight: "bold",
@@ -26,10 +25,25 @@ const OrderItem = ({ order, cancelOrder }) => {
         <Typography variant="h6" style={textStyle}>
           총 결제금액: {order.totalAmount.toLocaleString()} 원
         </Typography>
-        <OrderCancelButton
-          orderNumber={order.orderNumber}
-          handleCancelOrder={cancelOrder}
-        />
+        {order.status === "주문 완료" || order.status === "주문 취소" ? (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => cancelOrder(order.orderNumber)}
+            style={{ whiteSpace: "nowrap" }}
+          >
+            주문 취소
+          </Button>
+        ) : (
+          <Chip
+            label="주문 취소 불가"
+            sx={{
+              bgcolor: "red",
+              fontWeight: "bold",
+              color: "white",
+            }}
+          />
+        )}
       </div>
 
       <Divider sx={{ marginBottom: "20PX" }} />

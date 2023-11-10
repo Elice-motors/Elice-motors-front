@@ -13,13 +13,12 @@ import {
 } from "@mui/material";
 import { useLocalForage } from "../../LocalForageContext";
 
-const OptionCheck = ({ car, options }) => {
+const OptionCheck = ({ car, options, onOptionChange }) => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [directCart, setDirectCart] = useState([]);
   const { getItem, setItem } = useLocalForage();
-
   useEffect(() => {
     getItem("CartList")
       .then((items) => {
@@ -47,16 +46,22 @@ const OptionCheck = ({ car, options }) => {
   }, [cartItems, setItem, directCart, car.carId, navigate]);
 
   const handleChange = (event) => {
-    setValue(event.target.value + "");
+    const selectedValue = event.target.value + "";
+    setValue(selectedValue);
+
+    const updatedCar = findOptionMatchAndUpdate(selectedValue);
+    if (updatedCar) {
+      onOptionChange(updatedCar);
+    }
   };
-  const findOptionMatchAndUpdate = () => {
+  const findOptionMatchAndUpdate = (selectedValue) => {
     const selectedOption = options.find(
-      (option) => option.additionalPrice === Number(value)
+      (option) => option.additionalPrice === Number(selectedValue)
     );
     if (selectedOption) {
       const updatedCar = {
         ...car,
-        carPrice: car.carPrice + selectedOption.additionalPrice,
+        carPrice: car.basePrice + selectedOption.additionalPrice,
         option: selectedOption.name,
       };
       return updatedCar;
@@ -64,14 +69,14 @@ const OptionCheck = ({ car, options }) => {
   };
 
   const handleCartClick = () => {
-    const updatedCar = findOptionMatchAndUpdate();
+    const updatedCar = findOptionMatchAndUpdate(value);
     if (updatedCar) {
       setCartItems((prevCartItems) => [...prevCartItems, updatedCar]);
     }
   };
 
   const handleOrderClick = () => {
-    const updatedCar = findOptionMatchAndUpdate();
+    const updatedCar = findOptionMatchAndUpdate(value);
     if (updatedCar) {
       setDirectCart((prevdirectCartItem) => [
         ...prevdirectCartItem,

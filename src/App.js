@@ -14,11 +14,13 @@ import OrderSuccess from "./pages/order/OrderSuccess";
 import Admin from "./pages/admin/Admin";
 import AdminItem from "./pages/admin/admin-item/AdminItem";
 import AdminOrderList from "./pages/admin/AdminOrderList";
+import ScrollToTop from "./components/common/ScrollToTop";
 const App = () => {
   return (
     <>
       <BrowserRouter>
         <Header />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/:carId" element={<CarDetail />} />
