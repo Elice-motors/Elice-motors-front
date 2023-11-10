@@ -14,18 +14,18 @@ const CommonCarCard = ({ car, actionComponent, card = false }) => {
             variant="h6"
             style={{ marginTop: "10px", fontWeight: "bold" }}
           >
-            {car.carName}
+            {car?.carName}
           </Typography>
         )}
       </Grid>
       <Grid item xs={card ? 7 : 3}>
         <Typography style={{ fontWeight: "bold" }}>
-          제품명: {car.carName}
+          제품명: {car?.carName}
         </Typography>
-        <Typography>옵션: {car.option}</Typography>
-        <Typography>색상: {car.color}</Typography>
+        <Typography>옵션: {car?.option}</Typography>
+        <Typography>색상: {car?.color}</Typography>
         <Typography style={{ fontWeight: "bold", display: "inline" }}>
-          {`결제 금액: ${car.carPrice}`}
+          {`결제 금액: ${car?.carPrice?.toLocaleString()}`}
         </Typography>
       </Grid>
       {actionComponent && (
