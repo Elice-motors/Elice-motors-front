@@ -56,7 +56,6 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
   };
 
   const uploadFile = async (fileData) => {
-    console.log("파일 데이터", fileData);
     try {
       const response = await fileUpload(fileData);
       console.log("파일 업로드 response", response);
