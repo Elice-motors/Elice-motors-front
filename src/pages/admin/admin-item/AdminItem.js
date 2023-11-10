@@ -21,7 +21,7 @@ const AdminItem = () => {
     try {
       const response = await deleteProduct(productId);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === 204) {
         // Update products state after successful deletion
         const updatedProducts = products.filter(
           (product) => product.carId !== productId
@@ -71,7 +71,11 @@ const AdminItem = () => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <AdminItemAddModal open={modalOpen} handleClose={handleCloseModal} />
+        <AdminItemAddModal
+          open={modalOpen}
+          handleClose={handleCloseModal}
+          setProducts={setProducts}
+        />
       </Modal>
       {products.map((product) => (
         <Box
