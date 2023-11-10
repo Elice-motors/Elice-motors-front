@@ -122,6 +122,18 @@ export const getUserOrders = () => {
     .then((response) => response);
 };
 
+export const deleteUserOrder = (orderNumber) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem("userId");
+  return axios
+    .delete(`/api/orders/delete/${userId}?orderNumber=${orderNumber}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response);
+};
+
 // 전체 상품 조회
 export const getAllProducts = () => {
   return axios.get("/api/cars").then((response) => response);
@@ -129,7 +141,7 @@ export const getAllProducts = () => {
 
 // 상품 삭제
 export const deleteProduct = (carId) => {
-  return axios.get(`/api/cars/${carId}`).then((response) => response);
+  return axios.delete(`/api/cars/${carId}`).then((response) => response);
 };
 
 // 상품 등록
