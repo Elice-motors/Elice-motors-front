@@ -129,7 +129,14 @@ export const getAllProducts = () => {
 
 // 상품 삭제
 export const deleteProduct = (carId) => {
-  return axios.get(`/api/cars/${carId}`).then((response) => response);
+  const accessToken = localStorage.getItem("accessToken");
+  return axios
+    .delete(`/api/cars/${carId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response);
 };
 
 // 상품 등록
@@ -144,12 +151,14 @@ export const deleteProduct = (carId) => {
 //     .then((response) => response);
 // };
 
-export const addProduct = (productToformData) => {
+export const addProduct = (productData) => {
+  const accessToken = localStorage.getItem("accessToken");
+  console.log("상품 데이터", productData);
+
   return axios
-    .post("/api/carup", productToformData, {
+    .post("/api/carup", productData, {
       headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`, // 실제 토큰으로 대체하세요
+        Authorization: `Bearer ${accessToken}`, // 실제 토큰으로 대체하세요
       },
     })
     .then((response) => {
@@ -229,9 +238,8 @@ export const orderStatusChange = (orderNumber, newStatusData) => {
 // 관리자 파일 업로드
 export const fileUpload = (uploadedFile) => {
   const accessToken = localStorage.getItem("accessToken");
-  console.log("uplodadedFile", uploadedFile);
   return axios
-    .get("/api/upload", uploadedFile, {
+    .post("/api/upload", uploadedFile, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,

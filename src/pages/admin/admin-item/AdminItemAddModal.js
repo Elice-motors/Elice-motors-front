@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { addProduct, fileUpload } from "../../../lib/api";
 
-const AdminItemAddModal = ({ open, handleClose }) => {
+const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
   const [product, setProduct] = useState({
     carId: Date.now(),
     carName: "",
@@ -59,27 +59,56 @@ const AdminItemAddModal = ({ open, handleClose }) => {
     try {
       const response = await fileUpload(fileData);
       console.log("파일 업로드 response", response);
-      if (response.status === 200) {
+      if (response.status === 201) {
+        setUploadedUrl(response.data.img);
       }
     } catch (error) {
       console.log("파일 업로드 실패");
     }
   };
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   const formData = new FormData();
+  //   const productData = { ...product };
+  //   formData.append("data", JSON.stringify(productData));
+  //   formData.append("img", JSON.stringify(uploadedUrl));
+
+  //   // 폼 데이터와 함께 API 요청 처리
+  //   try {
+  //     const response = await addProduct(formData);
+  //     console.log(response);
+  //     // ... 상품 등록 성공 또는 실패 처리
+  //   } catch (error) {
+  //     // ... 오류 처리
+  //   }
+  // };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData();
-    const productData = { ...product };
-    formData.append("data", JSON.stringify(productData));
+    // Update the product object's 'img' field with 'uploadedUrl'
+    const updatedProductData = {
+      ...product,
+      img: uploadedUrl,
+    };
 
-    // 폼 데이터와 함께 API 요청 처리
+    // Send the form data with the API request
     try {
-      const response = await addProduct(formData);
+      const response = await addProduct(updatedProductData);
       console.log(response);
-      // ... 상품 등록 성공 또는 실패 처리
+      if (response.status === 201) {
+        alert("상품 등록 성공");
+        setProducts((existingProducts) => [
+          ...existingProducts,
+          response.data.car,
+        ]);
+      }
+      // Handle success
     } catch (error) {
-      // ... 오류 처리
+      console.error(error);
+      // Handle failure
     }
   };
 
@@ -151,6 +180,16 @@ const AdminItemAddModal = ({ open, handleClose }) => {
               type="number"
               name="mileage"
               value={product.mileage}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="연비 (km/l, 숫자만)"
+              type="number"
+              name="fuel"
+              value={product.fuel}
               onChange={handleChange}
             />
           </Grid>
