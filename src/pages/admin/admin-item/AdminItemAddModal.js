@@ -10,7 +10,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { addProduct } from "../../../lib/api";
+import { addProduct, fileUpload } from "../../../lib/api";
 
 const AdminItemAddModal = ({ open, handleClose }) => {
   const [product, setProduct] = useState({
@@ -27,6 +27,7 @@ const AdminItemAddModal = ({ open, handleClose }) => {
   });
 
   const [uploadedImageName, setUploadedImageName] = useState("");
+  const [uploadedUrl, setUploadedUrl] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -43,14 +44,25 @@ const AdminItemAddModal = ({ open, handleClose }) => {
     }));
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       setUploadedImageName(file.name); // Update the state with the file name
-      setProduct((prevProduct) => ({
-        ...prevProduct,
-        img: file.name,
-      }));
+      const fileData = new FormData();
+      fileData.append("image", file); // Append the file to the form data
+
+      await uploadFile(fileData); // Call fileUpload with the form data
+    }
+  };
+
+  const uploadFile = async (fileData) => {
+    try {
+      const response = await fileUpload(fileData);
+      console.log("파일 업로드 response", response);
+      if (response.status === 200) {
+      }
+    } catch (error) {
+      console.log("파일 업로드 실패");
     }
   };
 

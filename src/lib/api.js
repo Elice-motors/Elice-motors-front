@@ -225,3 +225,17 @@ export const orderStatusChange = (orderNumber, newStatusData) => {
     })
     .then((response) => response);
 };
+
+// 관리자 파일 업로드
+export const fileUpload = (uploadedFile) => {
+  const accessToken = localStorage.getItem("accessToken");
+  console.log("uplodadedFile", uploadedFile);
+  return axios
+    .get("/api/upload", uploadedFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => response);
+};
