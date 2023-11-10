@@ -174,9 +174,8 @@ export const getAllOrders = () => {
 };
 
 // 주문 삭제
-export const deleteOrder = (orderNumber) => {
+export const deleteOrder = (userId, orderNumber) => {
   console.log("주문번호", orderNumber);
-  const userId = localStorage.getItem("userId");
   console.log("유저 아이디", userId);
   return axios
     .delete(`/api/orders/delete/${userId}?orderNumber=${orderNumber}`, {
