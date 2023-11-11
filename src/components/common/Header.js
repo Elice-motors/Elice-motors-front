@@ -13,7 +13,7 @@ import { deepOrange } from "@mui/material/colors";
 import { logout } from "../../lib/api";
 import { useLocalForage } from "../../LocalForageContext";
 
-const Header = () => {
+const Header = ({ sedanRef, suvRef, elecRef }) => {
   const [productAnchorEl, setProductAnchorEl] = useState(null);
   const [userInfoAnchorEl, setUserInfoAnchorEl] = useState(null);
   const productOpen = Boolean(productAnchorEl);
@@ -33,7 +33,26 @@ const Header = () => {
   const handleUserClose = () => {
     setUserInfoAnchorEl(null);
   };
+  const handleSuvClick = () => {
+    handleProductClose();
+    if (suvRef.current) {
+      suvRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
+  const handleSedanClick = () => {
+    handleProductClose();
+    if (sedanRef.current) {
+      sedanRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleElecClick = () => {
+    handleProductClose();
+    if (elecRef.current) {
+      elecRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const handleMypage = () => {
     handleUserClose();
     navigate("/mypage");
@@ -100,9 +119,9 @@ const Header = () => {
               open={productOpen}
               onClose={handleProductClose}
             >
-              <MenuItem onClick={handleProductClose}>SUV/RV</MenuItem>
-              <MenuItem onClick={handleProductClose}>세단</MenuItem>
-              <MenuItem onClick={handleProductClose}>전기차</MenuItem>
+              <MenuItem onClick={handleSuvClick}>SUV/RV</MenuItem>
+              <MenuItem onClick={handleSedanClick}>세단</MenuItem>
+              <MenuItem onClick={handleElecClick}>전기차</MenuItem>
             </Menu>
           </div>
           <Typography variant="subtitle1">

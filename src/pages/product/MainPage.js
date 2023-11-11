@@ -4,7 +4,7 @@ import CategorySUV from "../../components/product/CategorySUV";
 import CategorySedan from "../../components/product/CategorySedan";
 import CategoryElec from "../../components/product/CategoryElec";
 
-const MainPage = () => {
+const MainPage = ({ suvRef, sedanRef, elecRef }) => {
   return (
     <>
       <MainProductBanner />
@@ -14,9 +14,9 @@ const MainPage = () => {
           padding: "20px",
         }}
       >
-        <CategorySUV />
-        <CategorySedan />
-        <CategoryElec />
+        <CategorySUV suvRef={suvRef} />
+        <CategorySedan sedanRef={sedanRef} />
+        <CategoryElec elecRef={elecRef} />
       </div>
     </>
   );
