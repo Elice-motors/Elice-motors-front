@@ -35,6 +35,7 @@ const Header = ({ sedanRef, suvRef, elecRef }) => {
   };
   const handleSuvClick = () => {
     handleProductClose();
+    navigate("/");
     if (suvRef.current) {
       suvRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -42,6 +43,7 @@ const Header = ({ sedanRef, suvRef, elecRef }) => {
 
   const handleSedanClick = () => {
     handleProductClose();
+    navigate("/");
     if (sedanRef.current) {
       sedanRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -49,6 +51,7 @@ const Header = ({ sedanRef, suvRef, elecRef }) => {
 
   const handleElecClick = () => {
     handleProductClose();
+    navigate("/");
     if (elecRef.current) {
       elecRef.current.scrollIntoView({ behavior: "smooth" });
     }
