@@ -12,8 +12,6 @@ import DirectOrder from "./pages/order/DirectOrder";
 import OrdersList from "./pages/order/OrdersList";
 import OrderSuccess from "./pages/order/OrderSuccess";
 import Admin from "./pages/admin/Admin";
-import AdminItem from "./pages/admin/admin-item/AdminItem";
-import AdminOrderList from "./pages/admin/AdminOrderList";
 import ScrollToTop from "./components/common/ScrollToTop";
 const App = () => {
   return (
@@ -32,8 +30,6 @@ const App = () => {
           <Route path="/orderslist" element={<OrdersList />} />
           <Route path="/ordersuccess" element={<OrderSuccess />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/admin-item" element={<AdminItem />} />
-          <Route path="/admin-orderlist" element={<AdminOrderList />} />
         </Routes>
         <Footer />
       </BrowserRouter>
