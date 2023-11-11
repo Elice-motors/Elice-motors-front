@@ -51,7 +51,9 @@ const Header = () => {
         clear().then(() => navigate("/"));
       }
     } catch (e) {
-      throw new Error("실패");
+      if (e.response.status === 404) {
+        alert("unknown error");
+      }
     }
   };
   return (
