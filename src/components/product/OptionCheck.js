@@ -69,6 +69,12 @@ const OptionCheck = ({ car, options, onOptionChange }) => {
   };
 
   const handleCartClick = () => {
+    // 옵션이 선택되지 않았을 경우 경고 메시지 표시
+    if (!value) {
+      alert("옵션을 선택해주세요.");
+      return; // 함수 실행 중단
+    }
+
     const updatedCar = findOptionMatchAndUpdate(value);
     if (updatedCar) {
       setCartItems((prevCartItems) => [...prevCartItems, updatedCar]);
@@ -77,6 +83,12 @@ const OptionCheck = ({ car, options, onOptionChange }) => {
   };
 
   const handleOrderClick = () => {
+    // 옵션이 선택되지 않았을 경우 경고 메시지 표시
+    if (!value) {
+      alert("옵션을 선택해주세요.");
+      return; // 함수 실행 중단
+    }
+
     const updatedCar = findOptionMatchAndUpdate(value);
     if (updatedCar) {
       setDirectCart((prevdirectCartItem) => [
