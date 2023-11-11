@@ -20,6 +20,9 @@ const OrdersList = () => {
         }
       } catch (error) {
         console.error(error);
+        if (error.status === 400) {
+          alert("구매 내역을 찾을 수 없습니다.");
+        }
       }
     };
     fetchData();
