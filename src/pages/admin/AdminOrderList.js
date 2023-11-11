@@ -36,8 +36,18 @@ const AdminOrderList = () => {
         const response = await getUserInfo();
         setUserName(response.data.user.userName);
         setUserId(response.data.user._id);
-      } catch (error) {
-        console.log("사용자 정보 조회 실패");
+      } catch (e) {
+        if (e.response.message === "존재하지 않는 계정입니다.") {
+          alert("존재하지 않는 계정입니다.");
+        } else if (e.response.message === "토큰이 없습니다.") {
+          alert("토큰이 없습니다.");
+        } else if (e.response.message === "정상적인 토큰이 아닙니다.") {
+          alert("정상적인 토큰이 아닙니다.");
+        } else if (e.response.message === "토큰이 만료되었습니다.") {
+          alert("토큰이 만료되었습니다.");
+        } else if (e.response.message === "권한이 없습니다.") {
+          alert("권한이 없습니다.");
+        }
       }
     };
 
