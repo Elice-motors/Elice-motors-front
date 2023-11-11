@@ -21,6 +21,9 @@ const MainProductBanner = () => {
         }
       } catch (e) {
         console.error(e);
+        if (e.response.status === 400) {
+          alert("상품 정보가 없습니다.");
+        }
       }
     };
     fetchData();
