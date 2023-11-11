@@ -86,18 +86,6 @@ export const getOptions = () => {
   return axios.get("/api/car-options").then((response) => response);
 };
 
-export const fetchUserInfo = () => {
-  const accessToken = localStorage.getItem("accessToken");
-  const shortId = localStorage.getItem("shortId");
-  return axios
-    .get(`/api/users/${shortId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    .then((response) => response);
-};
-
 export const createPayment = (paymentData) => {
   const accessToken = localStorage.getItem("accessToken");
   const userId = localStorage.getItem("userId");
@@ -185,8 +173,6 @@ export const getAllOrders = () => {
 
 // 주문 삭제
 export const deleteOrder = (userId, orderNumber) => {
-  console.log("주문번호", orderNumber);
-  console.log("유저 아이디", userId);
   const accessToken = localStorage.getItem("accessToken");
   return axios
     .delete(`/api/orders/delete/${userId}?orderNumber=${orderNumber}`, {
