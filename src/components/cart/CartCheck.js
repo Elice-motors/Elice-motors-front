@@ -74,8 +74,8 @@ const CartCheck = ({ cart }) => {
       }
     } catch (error) {
       console.log(error);
-      if (error.response.status === 404) {
-        alert("제품 정보가 누락되었습니다.");
+      if (error.response.data.error === "주문자 정보가 누락되었습니다.") {
+        alert("주문자 정보가 누락되었습니다.");
       }
     }
   };
