@@ -74,7 +74,7 @@ const CartCheck = ({ cart }) => {
       }
     } catch (error) {
       console.log(error);
-      if (error.response.status === 400) {
+      if (error.response.status === 404) {
         alert("제품 정보가 누락되었습니다.");
       }
     }
