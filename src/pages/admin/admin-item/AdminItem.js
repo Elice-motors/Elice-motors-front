@@ -44,7 +44,9 @@ const AdminItem = () => {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", alignItems: "center" }}>
+    <div
+      style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}
+    >
       <Stack
         direction="row"
         justifyContent="flex-start"
