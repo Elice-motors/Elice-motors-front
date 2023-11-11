@@ -39,7 +39,17 @@ const Mypage = () => {
           setUser(response.data.user);
         }
       } catch (e) {
-        throw new Error("실패");
+        if (e.response.message === "존재하지 않는 계정입니다.") {
+          alert("존재하지 않는 계정입니다.");
+        } else if (e.response.message === "토큰이 없습니다.") {
+          alert("토큰이 없습니다.");
+        } else if (e.response.message === "정상적인 토큰이 아닙니다.") {
+          alert("정상적인 토큰이 아닙니다.");
+        } else if (e.response.message === "토큰이 만료되었습니다.") {
+          alert("토큰이 만료되었습니다.");
+        } else if (e.response.message === "권한이 없습니다.") {
+          alert("권한이 없습니다.");
+        }
       }
     };
     fetchData();
