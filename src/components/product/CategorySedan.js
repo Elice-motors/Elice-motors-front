@@ -49,7 +49,7 @@ const CategorySedan = () => {
           {sedanItems.map((item) => (
             <React.Fragment key={item.carId}>
               <Link
-                to={`/${item.carId}`}
+                to={`/car/${item.carId}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
                 <ImageListItem sx={{ marginRight: "10px" }}>
