@@ -93,7 +93,7 @@ const Header = () => {
                 fontSize: "17px",
               }}
             >
-              {productOpen ? `제품🔼` : `제품🔽`}
+              제품
             </Button>
             <Menu
               anchorEl={productAnchorEl}

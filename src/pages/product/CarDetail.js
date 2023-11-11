@@ -43,7 +43,7 @@ const CarDetail = () => {
             <DetailInfo car={carItem} />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ marginTop: "50px" }}>
             <OptionCheck
               car={carItem}
               options={options}

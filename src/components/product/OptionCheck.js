@@ -110,8 +110,19 @@ const OptionCheck = ({ car, options, onOptionChange }) => {
                 <React.Fragment key={option.name}>
                   <FormControlLabel
                     value={option.additionalPrice + ""}
-                    control={<Radio />}
-                    label={`${option.name} +${option.additionalPrice}`}
+                    control={
+                      <Radio
+                        style={{
+                          color:
+                            value === option.additionPrice + ""
+                              ? "#1976D2"
+                              : "#3f51b5",
+                        }}
+                      />
+                    }
+                    label={`${
+                      option?.name
+                    } + ${option?.additionalPrice?.toLocaleString()}원`}
                   />
                 </React.Fragment>
               ))}

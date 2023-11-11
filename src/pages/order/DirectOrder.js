@@ -26,6 +26,7 @@ const DirectOrder = () => {
         alignItems: "center",
         height: "100vh",
         padding: "20px",
+        marginTop: "20px",
       }}
     >
       <div>

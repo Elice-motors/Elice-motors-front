@@ -39,7 +39,10 @@ const CategorySUV = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ marginBottom: "30px" }}>
-        <Typography variant="h2" sx={{ textAlign: "center" }}>
+        <Typography
+          variant="h2"
+          sx={{ textAlign: "center", marginBottom: "10px" }}
+        >
           SUV/RV
         </Typography>
         <Slider {...settings}>
@@ -49,7 +52,7 @@ const CategorySUV = () => {
                 to={`/${item.carId}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <ImageListItem sx={{ marginRight: "10px" }}>
+                <ImageListItem sx={{ marginRight: "10px", fontWeight: "bold" }}>
                   <img
                     srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                     src={`${item.img}?w=248&fit=crop&auto=format`}
@@ -67,8 +70,12 @@ const CategorySUV = () => {
                         }}
                       >
                         <span>{`최대속력: ${item.speed}km/h`}</span>
-                        <span>{`주행 거리: ${item.mileage}km`}</span>
-                        <span>{`연비: ${item.fuel}km/l`}</span>
+                        <span
+                          style={{ marginTop: "8px" }}
+                        >{`주행 거리: ${item.mileage}km`}</span>
+                        <span
+                          style={{ marginTop: "8px" }}
+                        >{`연비: ${item.fuel}km/l`}</span>
                       </div>
                     }
                     position="below"

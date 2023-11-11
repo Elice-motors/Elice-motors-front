@@ -41,50 +41,52 @@ const AdminUserList = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto" }}>
-      <Typography variant="h6">전체 사용자 ({users.length})</Typography>
-      <Stack spacing={2}>
-        {users.map((user) => (
-          <Card
-            key={user.id}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-              p: 2,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Avatar sx={{ bgcolor: deepPurple[500], mr: 2 }}>
-                {user.userName}
-              </Avatar>
-              <Box>
-                <Typography variant="subtitle1">
-                  {user.userName}{" "}
-                  {user.role === "ADMIN" && (
-                    <Chip label="관리자" size="small" color="primary" />
-                  )}
-                </Typography>
-                <Typography variant="body2" component="span">
-                  {user.email} · 전화번호: {user.phone}
-                </Typography>
-                <Typography variant="body2">
-                  나이: {user.age} · 주소지: {user.address}
-                </Typography>
-              </Box>
-            </Box>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => handleDeleteUser(user.shortId)}
+    <div style={{ display: "flex", minHeight: "100vh", alignItems: "center" }}>
+      <Box sx={{ maxWidth: 600, mx: "auto" }}>
+        <Typography variant="h6">전체 사용자 ({users.length})</Typography>
+        <Stack spacing={2}>
+          {users.map((user) => (
+            <Card
+              key={user.id}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+                p: 2,
+              }}
             >
-              삭제
-            </Button>
-          </Card>
-        ))}
-      </Stack>
-    </Box>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Avatar sx={{ bgcolor: deepPurple[500], mr: 2 }}>
+                  {user.userName}
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle1">
+                    {user.userName}{" "}
+                    {user.role === "ADMIN" && (
+                      <Chip label="관리자" size="small" color="primary" />
+                    )}
+                  </Typography>
+                  <Typography variant="body2" component="span">
+                    {user.email} · 전화번호: {user.phone}
+                  </Typography>
+                  <Typography variant="body2">
+                    나이: {user.age} · 주소지: {user.address}
+                  </Typography>
+                </Box>
+              </Box>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleDeleteUser(user.shortId)}
+              >
+                삭제
+              </Button>
+            </Card>
+          ))}
+        </Stack>
+      </Box>
+    </div>
   );
 };
 

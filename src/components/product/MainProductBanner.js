@@ -20,7 +20,7 @@ const MainProductBanner = () => {
           setNewItem(response.data.car);
         }
       } catch (e) {
-        throw new Error("불러오기 실패");
+        console.error(e);
       }
     };
     fetchData();
@@ -33,6 +33,9 @@ const MainProductBanner = () => {
           image={newItem.img}
           alt="Image Banner"
           component="img"
+          style={{
+            objectFit: "cover",
+          }}
         />
         <CardContent>
           <Typography variant="h5" component="div">

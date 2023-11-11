@@ -78,7 +78,8 @@ const CartCheck = ({ cart }) => {
           >
             {totalAmount.toLocaleString()}원
           </Typography>
-          <Divider variant="middle" />
+
+          <Divider style={{ padding: "15px" }} variant="middle" />
           <div
             style={{ display: "flex", alignItems: "center", margin: "10px 0" }}
           >
@@ -124,7 +125,7 @@ const CartCheck = ({ cart }) => {
           <Button
             variant="contained"
             color="primary"
-            style={{ width: "100%" }}
+            style={{ width: "100%", marginTop: "50px" }}
             onClick={handlePayment}
           >
             결제하기

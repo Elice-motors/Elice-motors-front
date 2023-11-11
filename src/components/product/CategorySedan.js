@@ -39,7 +39,10 @@ const CategorySedan = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ marginBottom: "30px" }}>
-        <Typography variant="h2" sx={{ textAlign: "center" }}>
+        <Typography
+          variant="h2"
+          sx={{ textAlign: "center", marginBottom: "10px" }}
+        >
           Sedan
         </Typography>
         <Slider {...settings}>
@@ -58,6 +61,7 @@ const CategorySedan = () => {
                   />
                   <ImageListItemBar
                     title={item.carName}
+                    sx={{ fontWeight: "bold", fontSize: "18px" }}
                     subtitle={
                       <div
                         style={{
@@ -67,8 +71,12 @@ const CategorySedan = () => {
                         }}
                       >
                         <span>{`최대속력: ${item.speed}km/h`}</span>
-                        <span>{`주행 거리: ${item.mileage}km`}</span>
-                        <span>{`연비: ${item.fuel}km/l`}</span>
+                        <span
+                          style={{ marginTop: "8px" }}
+                        >{`주행 거리: ${item.mileage}km`}</span>
+                        <span
+                          style={{ marginTop: "8px" }}
+                        >{`연비: ${item.fuel}km/l`}</span>
                       </div>
                     }
                     position="below"

@@ -13,6 +13,9 @@ const theme = createTheme({
       main: "#8797d3",
     },
   },
+  typography: {
+    fontFamily: "Noto Serif KR, serif",
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

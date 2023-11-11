@@ -67,34 +67,14 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
     }
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   const formData = new FormData();
-  //   const productData = { ...product };
-  //   formData.append("data", JSON.stringify(productData));
-  //   formData.append("img", JSON.stringify(uploadedUrl));
-
-  //   // 폼 데이터와 함께 API 요청 처리
-  //   try {
-  //     const response = await addProduct(formData);
-  //     console.log(response);
-  //     // ... 상품 등록 성공 또는 실패 처리
-  //   } catch (error) {
-  //     // ... 오류 처리
-  //   }
-  // };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Update the product object's 'img' field with 'uploadedUrl'
     const updatedProductData = {
       ...product,
       img: uploadedUrl,
     };
 
-    // Send the form data with the API request
     try {
       const response = await addProduct(updatedProductData);
       console.log(response);
@@ -105,10 +85,8 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
           response.data.car,
         ]);
       }
-      // Handle success
     } catch (error) {
       console.error(error);
-      // Handle failure
     }
   };
 
@@ -125,7 +103,7 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
         p: 4,
         display: "flex",
         flexDirection: "column",
-        gap: 2, // 간격
+        gap: 2,
       }}
     >
       <Typography variant="h6" component="h2">
