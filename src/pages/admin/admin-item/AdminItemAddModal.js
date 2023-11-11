@@ -87,6 +87,11 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
       }
     } catch (error) {
       console.error(error);
+      if (error.response.status === 401) {
+        alert(
+          "상품 이름, 가격, 이미지, 최대속력, 주행거리, 연비, 옵션, 카테고리는 필수 요청 값입니다"
+        );
+      }
     }
   };
 
