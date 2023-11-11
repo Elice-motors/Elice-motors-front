@@ -72,6 +72,7 @@ const OptionCheck = ({ car, options, onOptionChange }) => {
     const updatedCar = findOptionMatchAndUpdate(value);
     if (updatedCar) {
       setCartItems((prevCartItems) => [...prevCartItems, updatedCar]);
+      alert("장바구니에 담겼습니다.");
     }
   };
 
