@@ -76,7 +76,15 @@ const Mypage = () => {
         navigate("/");
       }
     } catch (e) {
-      console.error("실패", e);
+      if (e.response.status === 404) {
+        alert("존재하지 않는 계정입니다.");
+      } else if (e.response.message === "토큰이 없습니다.") {
+        alert("토큰이 없습니다.");
+      } else if (e.response.message === "정상적인 토큰이 아닙니다.") {
+        alert("정상적인 토큰이 아닙니다.");
+      } else if (e.response.message === "토큰이 만료되었습니다.") {
+        alert("토큰이 만료되었습니다.");
+      }
     }
   };
 
@@ -89,7 +97,15 @@ const Mypage = () => {
         handlelogout();
       }
     } catch (error) {
-      console.error("계정 삭제에 실패: ", error);
+      if (error.response.status === 404) {
+        alert("존재하지 않는 계정입니다.");
+      } else if (error.response.message === "토큰이 없습니다.") {
+        alert("토큰이 없습니다.");
+      } else if (error.response.message === "정상적인 토큰이 아닙니다.") {
+        alert("정상적인 토큰이 아닙니다.");
+      } else if (error.response.message === "토큰이 만료되었습니다.") {
+        alert("토큰이 만료되었습니다.");
+      }
     }
   };
 
