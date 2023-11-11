@@ -43,7 +43,7 @@ const AdminUserList = () => {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", alignItems: "center" }}>
+    <div style={{ display: "flex", minHeight: "100vh" }}>
       <Box sx={{ maxWidth: 600, mx: "auto" }}>
         <Typography variant="h6">전체 사용자 ({users.length})</Typography>
         <Stack spacing={2}>

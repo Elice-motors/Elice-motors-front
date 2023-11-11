@@ -8,18 +8,10 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import {
-  deleteOrder,
-  fetchUserInfo,
-  getAllOrders,
-  getUserInfo,
-  orderStatusChange,
-} from "../../lib/api";
+import { deleteOrder, getAllOrders, orderStatusChange } from "../../lib/api";
 
 const AdminOrderList = () => {
   const [orders, setOrders] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -31,28 +23,7 @@ const AdminOrderList = () => {
       }
     };
 
-    const fetchUserInfo = async () => {
-      try {
-        const response = await getUserInfo();
-        setUserName(response.data.user.userName);
-        setUserId(response.data.user._id);
-      } catch (e) {
-        if (e.response.message === "존재하지 않는 계정입니다.") {
-          alert("존재하지 않는 계정입니다.");
-        } else if (e.response.message === "토큰이 없습니다.") {
-          alert("토큰이 없습니다.");
-        } else if (e.response.message === "정상적인 토큰이 아닙니다.") {
-          alert("정상적인 토큰이 아닙니다.");
-        } else if (e.response.message === "토큰이 만료되었습니다.") {
-          alert("토큰이 만료되었습니다.");
-        } else if (e.response.message === "권한이 없습니다.") {
-          alert("권한이 없습니다.");
-        }
-      }
-    };
-
     fetchOrders();
-    fetchUserInfo();
   }, []);
 
   const handleOrderDelete = async (userId, orderNumber) => {
@@ -137,7 +108,12 @@ const AdminOrderList = () => {
           </Box>
 
           <Card
-            sx={{ mb: 2, p: 2, border: "1px solid #ccc", borderRadius: "4px" }}
+            sx={{
+              mb: 2,
+              p: 2,
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           >
             {order.products.map((item) => (
               <Box key={item.productInfo.carId} sx={{ mt: 1, mb: 1 }}>
@@ -156,7 +132,7 @@ const AdminOrderList = () => {
           </Card>
           <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
             <Typography variant="body1" fontWeight="bold">
-              이름 (배송지): {userName} ({order.address})
+              (배송지): ({order.address})
             </Typography>
             <Typography variant="body1" fontWeight="bold">
               총 결제 금액: {order.totalAmount.toLocaleString()}원
@@ -174,7 +150,7 @@ const AdminOrderList = () => {
   };
 
   return (
-    <Box>
+    <Box style={{ minHeight: "100vh" }}>
       <Typography variant="h6" sx={{ mb: 2 }} fontWeight="bold">
         전체 주문 ({orders.length})
       </Typography>
