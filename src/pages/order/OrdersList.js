@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chip, Container, Typography } from "@mui/material";
 import { getUserOrders } from "../../lib/api";
 import OrderItem from "../../components/order/order-detail/OrderItem";
+import { useNavigate } from "react-router";
 
 const textStyle = {
   fontWeight: "bold",
@@ -10,8 +11,11 @@ const textStyle = {
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
+    if (localStorage.getItem("accessToken") === null) {
+      navigate("/login");
+    }
     const fetchData = async () => {
       try {
         const response = await getUserOrders();
@@ -23,7 +27,7 @@ const OrdersList = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   return (
     <div
@@ -31,12 +35,15 @@ const OrdersList = () => {
         display: "flex",
         minHeight: "100vh",
         alignItems: "center",
+        marginTop: "90px",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
-      <Container maxWidth="sm" sx={{ marginTop: "80px" }}>
-        <Typography variant="h5" style={textStyle}>
-          나의 주문 내역
-        </Typography>
+      <Typography variant="h5" style={textStyle}>
+        나의 주문 내역
+      </Typography>
+      <Container maxWidth="sm">
         {orders?.map((order, index) => (
           <React.Fragment key={index}>
             <Chip
