@@ -8,18 +8,10 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import {
-  deleteOrder,
-  fetchUserInfo,
-  getAllOrders,
-  getUserInfo,
-  orderStatusChange,
-} from "../../lib/api";
+import { deleteOrder, getAllOrders, orderStatusChange } from "../../lib/api";
 
 const AdminOrderList = () => {
   const [orders, setOrders] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -31,18 +23,7 @@ const AdminOrderList = () => {
       }
     };
 
-    const fetchUserInfo = async () => {
-      try {
-        const response = await getUserInfo();
-        setUserName(response.data.user.userName);
-        setUserId(response.data.user._id);
-      } catch (error) {
-        console.log("사용자 정보 조회 실패");
-      }
-    };
-
     fetchOrders();
-    fetchUserInfo();
   }, []);
 
   const handleOrderDelete = async (userId, orderNumber) => {
@@ -129,7 +110,7 @@ const AdminOrderList = () => {
           </Card>
           <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
             <Typography variant="body1" fontWeight="bold">
-              이름 (배송지): {userName} ({order.address})
+              배송지: ({order.address})
             </Typography>
             <Typography variant="body1" fontWeight="bold">
               총 결제 금액: {order.totalAmount.toLocaleString()}원
