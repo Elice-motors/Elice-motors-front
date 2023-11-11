@@ -50,7 +50,7 @@ const Login = () => {
       if (error.response.status === 400) {
         alert("이메일 또는 비밀번호를 확인해주세요.");
       } else if (error.response.status === 401) {
-        alert("이메일, 비밀번호, 토큰은 필수 요청 값입니다.");
+        alert("이메일, 비밀번호는 필수 요청 값입니다.");
       }
     }
   };
