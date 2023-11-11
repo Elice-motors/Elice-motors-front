@@ -13,6 +13,7 @@ import OrdersList from "./pages/order/OrdersList";
 import OrderSuccess from "./pages/order/OrderSuccess";
 import Admin from "./pages/admin/Admin";
 import ScrollToTop from "./components/common/ScrollToTop";
+import NotFound from "./pages/NotFound";
 const App = () => {
   return (
     <>
@@ -21,7 +22,6 @@ const App = () => {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/:carId" element={<CarDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/mypage" element={<Mypage />} />
@@ -30,6 +30,8 @@ const App = () => {
           <Route path="/orderslist" element={<OrdersList />} />
           <Route path="/ordersuccess" element={<OrderSuccess />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/car/:carId" element={<CarDetail />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>
