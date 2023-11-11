@@ -14,7 +14,7 @@ const centerAlign = {
   marginBottom: "20px",
 };
 
-const OrderItem = ({ order, cancelOrder, isDelivered }) => {
+const OrderItem = ({ order }) => {
   return (
     <React.Fragment>
       {order?.products?.map((product) => (
@@ -32,25 +32,16 @@ const OrderItem = ({ order, cancelOrder, isDelivered }) => {
         <Typography variant="h6" style={textStyle}>
           총 결제금액: {order.totalAmount.toLocaleString()} 원
         </Typography>
-        {order.status === "주문 완료" || order.status === "주문 취소" ? (
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => cancelOrder(order.orderNumber)}
-            style={{ whiteSpace: "nowrap" }}
-          >
-            주문 취소
-          </Button>
-        ) : (
+        {order.status === "주문 취소" ? (
           <Chip
-            label="주문 취소 불가"
+            label="환불 요청 가능"
             sx={{
               bgcolor: "red",
               fontWeight: "bold",
               color: "white",
             }}
           />
-        )}
+        ) : null}
       </div>
 
       <Divider sx={{ marginBottom: "20PX" }} />

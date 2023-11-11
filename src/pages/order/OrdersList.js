@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Chip, Container, Typography } from "@mui/material";
-import { deleteOrder, getUserOrders } from "../../lib/api";
+import { getUserOrders } from "../../lib/api";
 import OrderItem from "../../components/order/order-detail/OrderItem";
 
 const textStyle = {
@@ -24,18 +24,6 @@ const OrdersList = () => {
     };
     fetchData();
   }, []);
-  const cancelOrder = async (orderNumber) => {
-    try {
-      const response = await deleteOrder(orderNumber);
-      if (response.status === 200) {
-        setOrders((prev) =>
-          prev.filter((item) => item.orderNumber !== orderNumber)
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div
@@ -73,7 +61,7 @@ const OrdersList = () => {
                 }}
               />
             </div>
-            <OrderItem key={index} order={order} cancelOrder={cancelOrder} />
+            <OrderItem key={index} order={order} />
           </React.Fragment>
         ))}
       </Container>
