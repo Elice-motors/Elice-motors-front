@@ -21,7 +21,9 @@ const AdminUserList = () => {
         console.log("사용자 정보", response);
         setUsers(response.data.users); // 상태 업데이트
       } catch (error) {
-        console.error("Error fetching users:", error);
+        if (error.response.status === 401) {
+          alert("관리자 계정만 접근 가능합니다.");
+        }
       }
     };
     fetchAllUsers(); // 함수 호출
