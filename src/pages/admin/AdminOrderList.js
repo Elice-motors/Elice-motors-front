@@ -8,10 +8,18 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { deleteOrder, getAllOrders, orderStatusChange } from "../../lib/api";
+import {
+  deleteOrder,
+  fetchUserInfo,
+  getAllOrders,
+  getUserInfo,
+  orderStatusChange,
+} from "../../lib/api";
 
 const AdminOrderList = () => {
   const [orders, setOrders] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -23,7 +31,28 @@ const AdminOrderList = () => {
       }
     };
 
+    const fetchUserInfo = async () => {
+      try {
+        const response = await getUserInfo();
+        setUserName(response.data.user.userName);
+        setUserId(response.data.user._id);
+      } catch (e) {
+        if (e.response.message === "존재하지 않는 계정입니다.") {
+          alert("존재하지 않는 계정입니다.");
+        } else if (e.response.message === "토큰이 없습니다.") {
+          alert("토큰이 없습니다.");
+        } else if (e.response.message === "정상적인 토큰이 아닙니다.") {
+          alert("정상적인 토큰이 아닙니다.");
+        } else if (e.response.message === "토큰이 만료되었습니다.") {
+          alert("토큰이 만료되었습니다.");
+        } else if (e.response.message === "권한이 없습니다.") {
+          alert("권한이 없습니다.");
+        }
+      }
+    };
+
     fetchOrders();
+    fetchUserInfo();
   }, []);
 
   const handleOrderDelete = async (userId, orderNumber) => {
@@ -37,6 +66,23 @@ const AdminOrderList = () => {
       }
     } catch (error) {
       console.error("Order deletion failed", error);
+      if (error.response.status === 400) {
+        alert("주문을 삭제하는 중에 오류가 발생하였습니다.");
+      } else if (
+        error.response.error ===
+        "주문을 삭제하는 동안 오류가 발생했습니다: 주문을 찾을 수 없습니다."
+      ) {
+        alert(
+          "주문을 삭제하는 동안 오류가 발생했습니다: 주문을 찾을 수 없습니다."
+        );
+      } else if (
+        error.response.error ===
+        "결제 실패 및 주문 생성 실패: 정보 누락으로 주문 저장에 실패하였습니다."
+      ) {
+        alert(
+          "결제 실패 및 주문 생성 실패: 정보 누락으로 주문 저장에 실패하였습니다."
+        );
+      }
     }
   };
 
@@ -72,7 +118,6 @@ const AdminOrderList = () => {
               justifyContent: "space-between",
               alignItems: "center",
               mb: 2,
-              marginTop: "15px",
             }}
           >
             <Typography variant="body1" fontWeight="bold">
@@ -111,7 +156,7 @@ const AdminOrderList = () => {
           </Card>
           <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
             <Typography variant="body1" fontWeight="bold">
-              배송지: ({order.address})
+              이름 (배송지): {userName} ({order.address})
             </Typography>
             <Typography variant="body1" fontWeight="bold">
               총 결제 금액: {order.totalAmount.toLocaleString()}원

@@ -100,22 +100,14 @@ const Register = () => {
         navigate("/login"); // 로그인 페이지로 이동
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 400) {
-          if (error.response.data.message === "이미 가입한 이메일입니다.") {
-            alert("이미 가입한 이메일입니다.");
-          } else if (
-            error.response.data.message ===
-            "이름, 이메일, 비밀번호는 필수입니다."
-          ) {
-            alert("이름, 이메일, 비밀번호는 필수입니다.");
-          }
-        } else {
-          // 다른 HTTP 상태 코드에 대한 처리를 여기에 추가할 수 있습니다.
-        }
-      } else {
-        console.error("API 요청 실패:", error);
-        // 네트워크 오류나 기타 예상치 못한 오류 처리를 여기에 추가할 수 있습니다.
+      console.log(error);
+      if (error.response.data.message === "이미 가입한 이메일입니다.") {
+        alert("이미 가입한 이메일입니다.");
+      } else if (
+        error.response.data.message ===
+        "이름, 이메일, 비밀번호는 필수 요청 값입니다."
+      ) {
+        alert("이름, 이메일, 비밀번호는 필수입니다.");
       }
     }
   };

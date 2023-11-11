@@ -63,7 +63,12 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
         setUploadedUrl(response.data.img);
       }
     } catch (error) {
-      console.log("파일 업로드 실패");
+      console.log(error);
+      if (error.response.status === 400) {
+        alert("업로드 중에 오류가 발생했습니다.");
+      } else if (error.response.status === 413) {
+        alert("파일 용량이 너무 큽니다.");
+      }
     }
   };
 
@@ -87,6 +92,11 @@ const AdminItemAddModal = ({ open, handleClose, setProducts }) => {
       }
     } catch (error) {
       console.error(error);
+      if (error.response.status === 401) {
+        alert(
+          "상품 이름, 가격, 이미지, 최대속력, 주행거리, 연비, 옵션, 카테고리는 필수 요청 값입니다"
+        );
+      }
     }
   };
 

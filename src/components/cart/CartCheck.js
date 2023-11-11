@@ -36,6 +36,17 @@ const CartCheck = ({ cart }) => {
         }
       } catch (e) {
         navigate("/login");
+        if (e.response.message === "존재하지 않는 계정입니다.") {
+          alert("존재하지 않는 계정입니다.");
+        } else if (e.response.message === "토큰이 없습니다.") {
+          alert("토큰이 없습니다.");
+        } else if (e.response.message === "정상적인 토큰이 아닙니다.") {
+          alert("정상적인 토큰이 아닙니다.");
+        } else if (e.response.message === "토큰이 만료되었습니다.") {
+          alert("토큰이 만료되었습니다.");
+        } else if (e.response.message === "권한이 없습니다.") {
+          alert("권한이 없습니다.");
+        }
       }
     };
     fetchData();
@@ -63,6 +74,9 @@ const CartCheck = ({ cart }) => {
       }
     } catch (error) {
       console.log(error);
+      if (error.response.data.error === "주문자 정보가 누락되었습니다.") {
+        alert("주문자 정보가 누락되었습니다.");
+      }
     }
   };
   return (

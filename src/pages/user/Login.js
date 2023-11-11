@@ -46,8 +46,12 @@ const Login = () => {
         localStorage.setItem("role", response.data.user.role);
         navigate("/");
       }
-    } catch (e) {
-      throw new Error("로그인 실패!");
+    } catch (error) {
+      if (error.response.status === 400) {
+        alert("이메일 또는 비밀번호를 확인해주세요.");
+      } else if (error.response.status === 401) {
+        alert("이메일, 비밀번호는 필수 요청 값입니다.");
+      }
     }
   };
   return (

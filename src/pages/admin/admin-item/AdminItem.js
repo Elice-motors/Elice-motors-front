@@ -27,11 +27,12 @@ const AdminItem = () => {
           (product) => product.carId !== productId
         );
         setProducts(updatedProducts);
-      } else {
-        alert("상품 삭제에 실패했습니다.");
       }
     } catch (error) {
       console.error(error);
+      if (error.response.status === 404) {
+        alert("상품 정보가 존재하지 않습니다.");
+      }
     }
   };
 

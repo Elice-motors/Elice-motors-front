@@ -18,6 +18,10 @@ const CarDetail = () => {
           ...carResponse.data.car,
           basePrice: carResponse.data.car.carPrice,
         });
+      } else if (carResponse.status === 404) {
+        alert("조건에 일치하는 상품이 존재하지 않습니다.");
+      } else if (carResponse.status === 500) {
+        alert("상품 정보 검색 중 오류가 발생했습니다.");
       }
       if (optionResponse.status === 200) {
         setOptions(optionResponse.data.options);
