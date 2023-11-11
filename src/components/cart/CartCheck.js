@@ -57,7 +57,8 @@ const CartCheck = ({ cart }) => {
     };
     try {
       const response = await createPayment(paymentData);
-      if (response.status === 200) {
+      console.log(response);
+      if (response.status === 201) {
         navigate("/ordersuccess", { state: { value: response.data } });
       }
     } catch (error) {
