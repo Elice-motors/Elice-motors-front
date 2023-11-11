@@ -6,7 +6,7 @@ const CommonCarCard = ({ car, actionComponent, card = false }) => {
   const content = (
     <>
       <Grid item xs={card ? 7 : 4}>
-        <Link to={`/${car.carId}`}>
+        <Link to={`/car/${car.carId}`}>
           <img
             src={car.img}
             alt={car.carName}
