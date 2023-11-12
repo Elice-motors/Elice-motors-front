@@ -9,13 +9,11 @@ const AdminItem = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    // 화면 진입 시 전체 상품 조회
     getAllProducts().then((response) => {
       setProducts(response.data.car);
     });
   }, []);
 
-  // 상품 삭제
   const handleDeleteProduct = async (productId) => {
     console.log(productId);
     try {
@@ -52,8 +50,8 @@ const AdminItem = () => {
         direction="row"
         justifyContent="flex-start"
         alignItems="flex-start"
-        spacing={2} // 카드 사이의 간격
-        sx={{ flexWrap: "wrap" }} // 줄 바꿈 허용
+        spacing={2}
+        sx={{ flexWrap: "wrap" }}
       >
         <Typography variant="h5">관리자 상품 관리 페이지</Typography>
         <Button
@@ -68,8 +66,8 @@ const AdminItem = () => {
       </Stack>
       <Typography variant="subtitle1">전체 상품({products.length})</Typography>
       <Modal
-        open={modalOpen} // Modal의 열림 상태를 modalOpen 변수로 제어
-        onClose={handleCloseModal} // 모달 밖의 영역 클릭 시 모달 닫기
+        open={modalOpen}
+        onClose={handleCloseModal}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
@@ -86,16 +84,16 @@ const AdminItem = () => {
               key={product.carId}
               sx={{
                 display: "flex",
-                flexDirection: "row", // 방향을 가로로 설정
-                alignItems: "flex-start", // 상품 내용을 상단 정렬
-                width: 300, // 박스 너비 설정
-                backgroundColor: "#fff", // 박스 배경색 설정
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)", // 박스 그림자 설정
-                borderRadius: "8px", // 박스 둥근 모서리 설정
-                overflow: "hidden", // 내용이 넘칠 경우 숨김
-                mb: 2, // 아래쪽 마진 설정
-                position: "relative", // 상대적 위치 설정
-                height: "100%", // 아이템의 높이를 100%로 설정
+                flexDirection: "row",
+                alignItems: "flex-start",
+                width: 300,
+                backgroundColor: "#fff",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                borderRadius: "8px",
+                overflow: "hidden",
+                mb: 2,
+                position: "relative",
+                height: "100%",
               }}
             >
               <img

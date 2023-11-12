@@ -19,7 +19,7 @@ const CartCheck = ({ cart }) => {
 
   const handleComplete = (data) => {
     setAddress(data.address);
-    setPostcodeOpen(false); // Close the postcode popup
+    setPostcodeOpen(false);
   };
 
   const useSameAccount = () => {

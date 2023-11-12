@@ -26,8 +26,9 @@ const CenteredTitle = (props) => (
     style={{
       textAlign: "center",
     }}
-    {...props}
-  />
+  >
+    {props}
+  </h2>
 );
 
 const Register = () => {
@@ -37,9 +38,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("USER");
+  const [role] = useState("USER");
   const [emailError, setEmailError] = useState("");
-  const [shortId, setShortId] = useState("");
 
   const validateEmail = (e) => {
     setEmail(e.target.value);
@@ -63,22 +63,17 @@ const Register = () => {
     setName(e.target.value);
   };
 
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-  };
-
   const handleRegistration = async () => {
     if (emailError) {
       alert("이메일 형식이 올바르지 않습니다.");
-      return; // 이메일 오류가 있으면 여기서 함수 실행을 중단합니다.
+      return;
     }
 
     if (password !== confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
-      return; // 비밀번호가 일치하지 않으면 여기서 함수 실행을 중단합니다.
+      return;
     }
 
-    // API 요청 데이터 준비
     const userData = {
       userName: name,
       email: email,
@@ -87,20 +82,12 @@ const Register = () => {
     };
 
     try {
-      // signup 함수를 await으로 호출하여 응답을 기다립니다.
       const response = await signup(userData);
       if (response.status === 201) {
-        // 회원가입 성공
         alert("회원가입에 성공했습니다.");
-        // shortId 저장
-        setShortId(response.data.user.shortId); // API 응답에서 shortId를 가져옵니다.
-
-        // 로컬 스토리지에 shortId 저장
-        localStorage.setItem("shortId", response.data.user.shortId);
-        navigate("/login"); // 로그인 페이지로 이동
+        navigate("/login");
       }
     } catch (error) {
-      console.log(error);
       if (error.response.data.message === "이미 가입한 이메일입니다.") {
         alert("이미 가입한 이메일입니다.");
       } else if (

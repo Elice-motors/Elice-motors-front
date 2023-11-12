@@ -8,7 +8,6 @@ export const signup = (userData) => {
   return axios.post("/api/signup", userData).then((response) => response);
 };
 
-// 사용자 정보 가져오기
 export const getUserInfo = () => {
   const accessToken = localStorage.getItem("accessToken");
   const shortId = localStorage.getItem("shortId");
@@ -21,7 +20,6 @@ export const getUserInfo = () => {
     .then((response) => response);
 };
 
-// 사용자 정보 업데이트
 export const updateUserInfo = (updatedUserInfo) => {
   const accessToken = localStorage.getItem("accessToken");
   const shortId = localStorage.getItem("shortId");
@@ -35,7 +33,6 @@ export const updateUserInfo = (updatedUserInfo) => {
     .then((response) => response);
 };
 
-// 사용자 계정 삭제
 export const deleteUserInfo = () => {
   const accessToken = localStorage.getItem("accessToken");
   const shortId = localStorage.getItem("shortId");
@@ -110,12 +107,10 @@ export const getUserOrders = () => {
     .then((response) => response);
 };
 
-// 전체 상품 조회
 export const getAllProducts = () => {
   return axios.get("/api/cars").then((response) => response);
 };
 
-// 상품 삭제
 export const deleteProduct = (carId) => {
   const accessToken = localStorage.getItem("accessToken");
   return axios
@@ -127,18 +122,6 @@ export const deleteProduct = (carId) => {
     .then((response) => response);
 };
 
-// 상품 등록
-// export const addProduct = (productToformData) => {
-//   return axios
-//     .post(`/api/carup`, productToformData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU0NjVlYTgxYjk2ZmFmYjkwMzNhNTQwIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNjk5NTk3MDg2LCJpYXQiOjE2OTk1MTA2ODZ9.fRpSRhvMpovFdPMdqGx_6xcuJX9bXXEGIGqmqmgE5LQ`,
-//       },
-//     })
-//     .then((response) => response);
-// };
-
 export const addProduct = (productData) => {
   const accessToken = localStorage.getItem("accessToken");
   console.log("상품 데이터", productData);
@@ -146,16 +129,14 @@ export const addProduct = (productData) => {
   return axios
     .post("/api/carup", productData, {
       headers: {
-        Authorization: `Bearer ${accessToken}`, // 실제 토큰으로 대체하세요
+        Authorization: `Bearer ${accessToken}`,
       },
     })
     .then((response) => {
-      console.log("Response:", response); // 이제 응답을 콘솔에 출력할 것입니다.
       return response;
     })
     .catch((error) => {
-      console.error("Error:", error); // 여기서 오류를 콘솔에 출력할 것입니다.
-      throw error; // 오류를 다시 throw하여 호출자에게 전달할 수 있습니다.
+      throw error;
     });
 };
 
@@ -183,7 +164,6 @@ export const deleteOrder = (userId, orderNumber) => {
     .then((response) => response);
 };
 
-// 모든 사용자 조회
 export const getAllUsers = () => {
   const accessToken = localStorage.getItem("accessToken");
   return axios
@@ -195,7 +175,6 @@ export const getAllUsers = () => {
     .then((response) => response);
 };
 
-// 관리자 사용자 삭제
 export const deleteUser = (shortId) => {
   const accessToken = localStorage.getItem("accessToken");
   console.log("shortId", shortId);
@@ -209,7 +188,6 @@ export const deleteUser = (shortId) => {
     .then((response) => response);
 };
 
-// 관리자 주문 상태 변경
 export const orderStatusChange = (orderNumber, newStatusData) => {
   const accessToken = localStorage.getItem("accessToken");
   const userId = localStorage.getItem("userId");
@@ -224,7 +202,6 @@ export const orderStatusChange = (orderNumber, newStatusData) => {
     .then((response) => response);
 };
 
-// 관리자 파일 업로드
 export const fileUpload = (uploadedFile) => {
   const accessToken = localStorage.getItem("accessToken");
   return axios

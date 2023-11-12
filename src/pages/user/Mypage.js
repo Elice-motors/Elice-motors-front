@@ -67,7 +67,6 @@ const Mypage = () => {
     }
   };
 
-  // 사용자 정보 업데이트
   const handleUpdate = async () => {
     try {
       const response = await updateUserInfo(user);
@@ -88,7 +87,6 @@ const Mypage = () => {
     }
   };
 
-  // 사용자 계정 삭제
   const handleDelete = async () => {
     try {
       const response = await deleteUserInfo();
